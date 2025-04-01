@@ -13,7 +13,6 @@ fontsize: 12pt
 Dans le contexte de l'analyse de grandes bases de données et des statistiques, le calcul parallèle apparaît comme une solution incontournable pour accélérer les traitements. Il s'agit de diviser une tâche complexe en plusieurs petites tâches qui s'exécutent simultanément. Cela permet de réduire drastiquement le temps de calcul, surtout lorsqu'on manipule des millions de lignes ou qu'on réalise de nombreuses simulations.
 
  
-
 ## Qu'est-ce que le calcul parallèle ?
 
 Le **calcul parallèle** consiste à exécuter plusieurs tâches en même temps en utilisant plusieurs ressources informatiques(appelées coeurs ou threads). En pratique, au lieu de réaliser toutes les opérations une par une (calcul séquentiel), on les répartit entre plusieurs processeurs ou coeurs pour exécuter plusieurs tâches en même temps.
