@@ -1,0 +1,27 @@
+---
+title: "Stat desc de la base"
+author: "Fogwoung Djoufack Sarah-Laure & Aissatou Sega Diallo"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r Importation}
+ships <- read_csv("data/ships.csv")  
+```
+```{r Apercu,}
+head(ships)        # les 6 premières lignes
+dim(ships)         # nombre de lignes et de colonnes
+str(ships)         # types et structure des colonnes
+```
+
+```{r stats}
+summary(ships)         # min, mediane, max, et NA par variable
+```
+
+```{r manquants}
+# Nombre de valeurs manquantes par colonne
+na_counts <- sapply(ships, function(col) sum(is.na(col)))
+print("Valeurs manquantes par variable :")
+print(na_counts)
+```
+
