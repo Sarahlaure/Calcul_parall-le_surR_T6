@@ -21,7 +21,25 @@ Pour répondre à ces besoins, on adopte le **calcul parallèle**, qui répartit
 
 ---
 
-## Présentation de la base de données 
+## Description du projet
+
+Ce dépôt contient :
+1. **Documentation théorique**  
+   Un fichier R Markdown (`.Rmd`) détaillant les concepts fondamentaux du calcul parallèle (cœurs vs threads, modèles Fork‑Join, MapReduce, etc.).
+2. **Application pratique**  
+   Une application Shiny qui analyse le trafic maritime à l’aide de calculs parallèles sous R.
+3. **Support de présentation**  
+   - Diaporama PowerPoint pour la présentation en classe  
+   - Quiz d’évaluation pour vérifier la compréhension des camarades par rapport à nos explication 
+4. **Ressources complémentaires**  
+   - Dossier `images/` : graphiques et schémas utilisés  
+   - Document Word sur la **mise en œuvre d’un parallélisme distribué**  
+   - Fichiers de données (`ships.csv`, etc.)
+   - La documentation utilisée.
+
+---
+
+## Présentation de la base de données pour l'application Rshiny
 
 ### Données AIS
 
@@ -33,23 +51,6 @@ Pour répondre à ces besoins, on adopte le **calcul parallèle**, qui répartit
   - Stations côtières (40–50 km de portée)  
   - Satellites (couverture mondiale, haute mer)  
 
----
-
-## Description du projet
-
-Ce dépôt contient :
-1. **Documentation théorique**  
-   Un fichier R Markdown (`.Rmd`) détaillant les concepts fondamentaux du calcul parallèle (cœurs vs threads, modèles Fork‑Join, MapReduce, etc.).
-2. **Application pratique**  
-   Une petite application Shiny qui analyse le trafic maritime à l’aide de calculs parallèles sous R.
-3. **Support de présentation**  
-   - Diaporama PowerPoint pour la présentation en classe  
-   - Quiz d’évaluation pour vérifier la compréhension des camarades  
-4. **Ressources complémentaires**  
-   - Dossier `images/` : graphiques et schémas utilisés  
-   - Document Word sur la **mise en œuvre d’un parallélisme distribué**  
-   - Fichiers de données (`ships.csv`, etc.)
-  
 ---
 
 ## Méthodologie de l'application shiny
@@ -67,7 +68,7 @@ Ce dépôt contient :
 4. **Visualisation**  
    - Carte interactive `leaflet` du trajet maximal  
    - Résumé textuel des résultats  
-5. **Benchmark parallèle vs séquentiel**  
+5. **Comparaison parallèle vs séquentiel**  
    - Utilisation de `makeCluster()` + `parLapply()`  
    - Division dynamique des données selon le nombre de threads  
    - Affichage des temps d’exécution et calcul du `speedup`  
