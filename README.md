@@ -25,7 +25,7 @@ Pour répondre à ces besoins, on adopte le **calcul parallèle**, qui répartit
 
 Ce dépôt contient :
 1. **Documentation théorique**  
-   Un fichier R Markdown (`.Rmd`) détaillant les concepts fondamentaux du calcul parallèle (cœurs vs threads, modèles Fork‑Join, MapReduce, etc.).
+   Un bookdown détaillant les concepts fondamentaux du calcul parallèle (cœurs vs threads, modèles Fork‑Join, MapReduce, etc.).
 2. **Application pratique**  
    Une application Shiny qui analyse le trafic maritime à l’aide de calculs parallèles sous R.
 3. **Support de présentation**  
