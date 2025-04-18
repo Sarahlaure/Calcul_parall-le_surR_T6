@@ -21,6 +21,20 @@ Pour répondre à ces besoins, on adopte le **calcul parallèle**, qui répartit
 
 ---
 
+## Présentation de la base de données 
+
+### Données AIS
+
+- **Volume** : 3 102 887 observations × 20 variables  
+- **AIS** (Automatic Identification System) : système de suivi des navires pour la sécurité et la gestion du trafic  
+- **Variables dynamiques** : position (lat/lon), vitesse (SOG), cap (COG), état de navigation  
+- **Variables statiques** : MMSI, nom, type, dimensions du navire, destination  
+- **Sources** :  
+  - Stations côtières (40–50 km de portée)  
+  - Satellites (couverture mondiale, haute mer)  
+
+---
+
 ## Description du projet
 
 Ce dépôt contient :
