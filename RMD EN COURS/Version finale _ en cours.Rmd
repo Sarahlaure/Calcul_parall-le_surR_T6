@@ -21,6 +21,7 @@ Les applications critiques comme l’analyse financière en temps réel, l’ent
 ### Loi de Moore et plafonnement des fréquences CPU 
 
 Les processeurs modernes reposent sur des milliards de transistors, des micro-interrupteurs qui exécutent des calculs. Selon la loi de Moore (1965), leur nombre double tous les deux ans, permettant pendant des décennies d’augmenter la fréquence d’horloge (GHz), c’est-à-dire le rythme auquel ces transistors s’activent. Ainsi, un CPU à 3 GHz réalise 3 milliards d’opérations par seconde. Cependant, au-delà de ~4 GHz, la chaleur et la consommation d’énergie deviennent ingérables. 
+
 Pour contourner cette limite, l’industrie a abandonné l’idée d’un cœur unique ultra-rapide et a opté pour le multi-core en ajoutant plusieurs cœurs sur une même puce.Chacun fonctionne à une fréquence raisonnable, mais leur travail combiné permet de traiter des tâches en parallèle. Surtout, le multi-core répartit la chaleur sur toute la surface du CPU, évitant les points chauds et facilitant le travail des systèmes de refroidissement (ventilateurs, radiateurs). Cette approche est aujourd’hui indispensable pour le Big Data ou l’apprentissage automatique, où des milliards de données doivent être traitées sans surchauffer les machines.
 
 ## Présentation du calcul parallele 
@@ -37,7 +38,7 @@ Le **calcul parallèle** désigne l'exécution simultanée de plusieurs tâches 
 
 # Concepts fondamentaux 
 
-Le processeur (ou CPU, pour Central Processing Unit) la partie qui exécute les instructions des programmes et effectue les calculs nécessaires au bon fonctionnement de l'ordinateur. Il peut être vu comme "l'organe" qui contrôle l'exécution des tâches. Un processeur peut contenir un ou plusieurs cœurs (ou cores), chacun capable de traiter des instructions indépendamment.
+Le processeur (ou CPU, pour Central Processing Unit) est la partie qui exécute les instructions des programmes et effectue les calculs nécessaires au bon fonctionnement de l'ordinateur. Il peut être vu comme "l'organe" qui contrôle l'exécution des tâches. Un processeur peut contenir un ou plusieurs cœurs (ou cores), chacun capable de traiter des instructions indépendamment.
 
 ## 1. Coeurs du Processeur
 
@@ -67,7 +68,7 @@ Dans mon cas par exemple, mon core i5 a 10 coeurs.
 ## 2. Threads (ou Processeurs Logiques)
 
 - **Définition :**  
-Un **thread** est la plus petite unité d’exécution gérée par le système d’exploitation: c’est une séquence d’instructions qu’un cœur peut traiter.
+Un **thread** est la plus petite unité d’exécution gérée par le système d’exploitation, c’est une séquence d’instructions qu’un cœur peut traiter.
 
 Chaque thread possède son propre contexte (ensemble des informations que le CPU doit sauvegarder et restaurer pour reprendre l’exécution exactement là où il s’était arrêté), mais partage avec les autres threads du même cœur les ressources matérielles (unités arithmétiques, caches).
 
@@ -133,7 +134,7 @@ Ainsi, chaque thread travaille sur une portion de la tâche, ce qui accélère l
 Une fois que les sous-tâches sont réparties, le programme maître envoie chaque sous-tâche aux threads disponibles pour exécution simultanée. Ces threads peuvent être répartis sur les différents cœurs de processeur ou machines.
 
 - **Collecte et agrégation des résultats:**  
-Après que chaque thread a terminé sa partie du travail, le programme maître récupère les résultats produits. Souvent, cela se fait à l'aide d'une fonction comme do.call() en R, qui permet de combiner ou de regrouper les résultats des différentes tâches en un seul ensemble de données final.
+Après que chaque thread a terminé sa partie du travail, le programme maître récupère les résultats produits. 
 
 D'autres part, nous distinguons les sous-programmes (ou workers).
 
@@ -168,7 +169,7 @@ Etape 2: Puis la fonction parLapply() permet de distribuer les sous-tâches à c
 
 Etape 3: Arrêt du cluster (libération des ressources): Une fois toutes les tâches terminées, on arrête proprement les workers.Cela libère la mémoire et évite de laisser des processus inutilisés tourner en arrière-plan. On fait de ce fait: **stopCluster**. 
 
-Etape 4: Chaque worker renvoie un résultat (souvent un tableau ou un vecteur).On utilise **do.call(rbind, ...)** pour assembler tous les résultats obtenus en un seul tableau cohérent, ligne par ligne.
+Etape 4: Chaque worker renvoie un résultat (souvent un tableau ou un vecteur).On utilise une fonction pour assembler tous les résultats obtenus en un seul tableau cohérent, ligne par ligne.
 
 # Packages et fonctions de base du calcul parallele
 
@@ -182,14 +183,14 @@ Ce package fait partie de l’installation standard de R et est utilisé pour r�
 - `parLapply(cl, X, FUN)` : version parallèle de `lapply. La base de données ou tout autre objet X est divisé en sous ensemble qui seront traité par un worker différent du cluster cl et chaque worker applique la fonction FUN a chaque élément à sa charge. Et à la fin les résultats sont présentés sous forme de liste. 
 - `parSapply(cl, X, FUN)` : Meme principe que parLapply mais ici le résultat est simplifié et n'est pas forcément sous forme d'une liste. 
 - `mclapply(X, FUN, mc.cores)` : version parallèle de `lapply` pour Unix/Linux/Mac (pas Windows).
-- `stopCluster(cl)` : arrête proprement le cluster.
-- `clusterApply()`  : 
+- `stopCluster(cl)` : arrête le cluster.
+- `clusterApply()`  : applique la fonction fun sur les éléments de x, chaque élément étant envoyé à un worker du cluster cl.
 
-- `clusterMap()`  : 
+- `clusterMap(cl, fun, ...)`: applique fun de manière parallèle sur plusieurs listes d’arguments (comme mapply).
 
 ## 2. Package **foreach + doParallel** 
 
-foreach permet d’écrire des boucles parallèles, tandis que doParallel les connecte à un cluster.
+Ces packages permettent de créer des boucles parallèles. foreach fournit la syntaxe, tandis que doParallel permet de connecter cette syntaxe à un backend de calcul parallèle (comme un cluster).er.
 
 Ses principales fonctions sont: 
 - `registerDoParallel(n)`: crée un cluster de `n` workers pour exécuter des boucles en parallèle.
@@ -205,29 +206,85 @@ stopCluster(cl)
 
 print(resultats)
 ``` 
-Ici, puisqu'on a définit 4 workers et qu'il y a 5 calculs à faire, c'est le 1er coeur à finir qui va se charger du dernier calcul. 
+Ici, le calcul de racines carrées est réparti entre 4 cœurs. Le cœur qui termine le plus vite se voit attribuer la prochaine tâche disponible. 
 
 
-## 3. Package **future + future.apply** 
+## 3. Packages **future** et **future.apply**
 
+Les packages `future` et `future.apply` ont été conçus pour rendre le calcul parallèle en R à la fois plus simple, plus lisible et plus flexible. Contrairement à des packages comme `parallel`, où il faut explicitement créer un cluster, gérer les workers et exporter les variables, ici on adopte une approche déclarative : **on décrit ce qu’on veut faire**, et **le système se charge de l’exécuter** selon un plan défini.
+
+Ces packages permettent de paralléliser facilement des fonctions comme `lapply()` ou `sapply()` **sans avoir à se soucier des aspects techniques** (gestion des cœurs, communication entre workers, etc.). Il devient ainsi très simple de basculer d'une exécution séquentielle à une exécution parallèle, en changeant une seule ligne de code.
+
+Ses principales fonctions sont: 
+
+- `plan(strategy)`  
+  Cette fonction définit le **plan d’exécution**, c’est-à-dire la manière dont les tâches vont être exécutées :
+  - `plan(sequential)` : exécution classique, une tâche après l'autre (par défaut).
+  - `plan(multisession)` : exécution parallèle sur plusieurs cœurs, chaque tâche étant lancée dans un processus indépendant. Fonctionne sur **tous les systèmes d’exploitation**, y compris **Windows**.
+  - `plan(multicore)` : exécution parallèle optimisée pour **Linux/Mac** uniquement, en utilisant des processus légers (forks).
+
+- `future_lapply(X, FUN)`  
+  Version parallèle de `lapply()`. Chaque élément de `X` est traité indépendamment par la fonction `FUN`, de manière simultanée sur les différents cœurs disponibles. Le résultat est retourné sous forme de **liste**.
+
+- `future_sapply(X, FUN)`  
+  Version parallèle de `sapply()`. Fonctionne comme `future_lapply()` mais **le résultat est automatiquement simplifié** (vecteur, matrice...), comme avec `sapply()`.
+
+```{r doParallel, message=FALSE, warning=FALSE}
+library(future)
+library(future.apply)
+
+# Définir un plan d’exécution parallèle
+plan(multisession)
+
+# Exécuter une opération en parallèle
+resultats <- future_lapply(1:10, function(x) sqrt(x))
+
+# Afficher les résultats
+print(resultats)
+```
 
 ## 4. Package **snow** (Simple Network of Workstations)
 
-Package plus flexible que parallel, surtout utile pour le parallélisme distribué, mais fonctionne aussi en local.En effet il est utilisé pour créer des clusters de machines (ou de workers sur une même machine) et répartir des tâches.
+**snow** est une alternative plus flexible à parallel, notamment pour les environnements distribués (plusieurs machines), mais fonctionne aussi en local. 
+
 Il comporte les fonctions suivantes: 
 
+- `makeCluster()`: crée un cluster de workers, localement ou à distance.
+
+- `clusterExport()`: clusterApply(), clusterMap(): mêmes principes que dans parallel.
+
+- `snow.time()`: mesure le temps d'exécution d’une commande dans un cluster.
 
 
 ## 5. Package **snowFT** 
+**snowFT** est une extension du package snow permettant la tolérance aux pannes (fault tolerance). Il est utile dans les environnements instables ou avec de longs calculs, car il permet de redémarrer un worker qui a échoué sans compromettre tout le processus.
 
+Ses principales fonctions sont: 
+
+- `makeClusterFT()`: crée un cluster avec tolérance aux pannes.
+Compatible avec les fonctions classiques de snow.
 
 
 ## 6. Package **BiocParallel** 
+éveloppé pour la communauté Bioconductor, ce package est particulièrement adapté aux traitements de données biologiques, mais peut être utilisé plus largement. 
 
+Ses principales fonctions sont: 
+- `bplapply(X, FUN, BPPARAM)`: version parallèle de lapply utilisant le backend précisé dans BPPARAM.
 
+- `bpstart(), bpstop()`: pour démarrer et arrêter un backend.
+
+- `bpvec(), bpaggregate()`: fonctions pour les grands vecteurs ou les regroupements parallèles.
 
 ## 7. Package **sparklyr** 
+sparklyr permet de connecter R à Apache Spark, une plateforme de calcul distribué à grande échelle. Il est utilisé pour traiter de très gros volumes de données en parallèle sur des clusters Spark.
 
+Fonctions principales :
+
+- `spark_connect()`: connecte R à un cluster Spark.
+
+- `sdf_copy_to()`: copie un data.frame R vers Spark.
+
+- `spark_apply(df, function): applique une fonction R en parallèle sur les partitions de données Spark. 
 
 ## 8. Package **tictoc** 
 
@@ -392,7 +449,6 @@ En parallélisme de données, le nombre de workers doit être proche du nombre d
 
 Il existe deux principales approches pour utiliser plusieurs processeurs afin de faire du calcul parallèle : le parallélisme distribué et le parallélisme partagé (ou calcul parallele en local). Ces approches déterminent comment les ressources sont partagées entre plusieurs processeurs, qu'ils soient dans un même ordinateur ou répartis sur plusieurs machines.
 
-Dans ce modèle, **tous les workers accèdent à la même mémoire centrale**. Cela signifie qu'ils peuvent lire et écrire dans les mêmes objets R si on ne prend pas de précautions. 
 
 Le *parallélisme partagé* est basé sur le fait que tous les workers accèdent à la même mémoire centrale RAM.
 C'est le modèle utilisé **lorsqu'on travaille sur une seule machine**, équipée de plusieurs cœurs de processeur.
@@ -507,15 +563,6 @@ stopCluster(cl)
 print(resultat_final)
 
 ```
-
-**Exemple 2 :** Avec les données sattelites 
-
-
-
-
-
-
-
 
 
 # PERFORMANCE ET ASPECTS PRATIQUES 
@@ -690,13 +737,20 @@ plot(cœurs, efficacité, type = "b", col = "blue", pch = 16, xlab = "Nombre de 
 grid()
 ```
 
-Lorsque l'on utilise plusieurs cœurs pour effectuer un calcul parallèle, une partie du temps est consacrée à la gestion des cœurs et à la coordination entre eux. Cela inclut la création des clusters, où les données sont réparties entre les cœurs, et la synchronisation des résultats. Ce travail supplémentaire, bien qu'important pour que tout fonctionne correctement, ne contribue pas directement à l'exécution du calcul lui-même. Plus on ajoute de cœurs, plus cette gestion devient coûteuse en temps, ce qui réduit l'efficacité de l'ensemble du processus et limite les gains attendus.
+On observe que l’efficacité diminue progressivement à mesure qu’on ajoute des cœurs.
+Cela s’explique par le temps supplémentaire consacré à la coordination :
+création des clusters, répartition des données, synchronisation des résultats… Ces opérations, bien que nécessaires, n'accélèrent pas directement le calcul.
 
-Cela illustre bien la nécessité d'optimiser le nombre de cœurs utilisés en fonction de la tâche.
+Ainsi, au-delà d’un certain nombre de cœurs, l’ajout de ressources ne se traduit plus par un gain proportionnel de performance.
 
-### Loi d’Amdahl (limite théorique du parallélisme).
+### Scalabilité
 
-### Loi de Gustafson (adaptation à l’échelle des données).
+La scalabilité est étroitement liée à l’efficacité, mais elle s’intéresse à l’évolution de la performance lorsqu’on augmente les ressources.
+
+Elle mesure la capacité d’un programme à maintenir ou améliorer ses performances lorsqu’on augmente le nombre de cœurs, la taille des données ou la mémoire disponible.
+
+- Si un programme est **hautement scalable**, le temps d’exécution diminue régulièrement à mesure qu’on ajoute des cœurs.
+- Si la scalabilité est **faible**, ajouter des ressources ne sert plus à rien au bout d’un certain point — voire ça ralentit à cause de la coordination nécessaire entre les threads (synchronisation, accès partagés, etc.).
 
 ## Défis et optimisation
 
