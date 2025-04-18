@@ -1,0 +1,14 @@
+# Introduction
+
+## 1- Contexte et motivations ayant donné lieu au calcul parallele
+
+L’ère du Big Data, marquée par l’explosion des réseaux sociaux, de l’IoT (Internet des Objets), et des simulations numériques, a entraîné une croissance vertigineuse des données. Selon IBM, 90 % des données mondiales ont été générées au cours des deux dernières années seulement – un rythme qui s’accélère avec plus de 2,5 trillions d’octets créés quotidiennement (https://bernardmarr.com/how-much-data-do-we-create-every-day-the-mind-blowing-stats-everyone-should-read/.
+
+Les applications critiques comme l’analyse financière en temps réel, l’entraînement de modèles de Deep Learning (ex : GPT-4 avec 1,7 trillion de paramètres), ou les prévisions météorologiques à haute résolution, exigent désormais des traitements en millisecondes. Or, un processeur monocœur classique ne peut traiter qu’environ 3 milliards d’instructions par seconde (3 GHz), rendant le calcul séquentiel totalement inadapté à ces défis.
+
+## 2- Loi de Moore et plafonnement des fréquences CPU 
+
+Les processeurs modernes reposent sur des milliards de transistors, des micro-interrupteurs qui exécutent des calculs. Selon la loi de Moore (1965), leur nombre double tous les deux ans, permettant pendant des décennies d’augmenter la fréquence d’horloge (GHz), c’est-à-dire le rythme auquel ces transistors s’activent. Ainsi, un CPU à 3 GHz réalise 3 milliards d’opérations par seconde. Cependant, au-delà de ~4 GHz, la chaleur et la consommation d’énergie deviennent ingérables. 
+
+Pour contourner cette limite, l’industrie a abandonné l’idée d’un cœur unique ultra-rapide et a opté pour le multi-core en ajoutant plusieurs cœurs sur une même puce.Chacun fonctionne à une fréquence raisonnable, mais leur travail combiné permet de traiter des tâches en parallèle. Surtout, le multi-core répartit la chaleur sur toute la surface du CPU, évitant les points chauds et facilitant le travail des systèmes de refroidissement (ventilateurs, radiateurs). Cette approche est aujourd’hui indispensable pour le Big Data ou l’apprentissage automatique, où des milliards de données doivent être traitées sans surchauffer les machines.
+

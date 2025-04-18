@@ -1,0 +1,12 @@
+h1:performance-et-aspects-pratiques PERFORMANCE ET ASPECTS PRATIQUES
+h2:métriques-de-base Métriques de base
+h3:speedup Speedup
+h3:efficacité Efficacité
+h3:scalabilité Scalabilité
+h2:défis-et-optimisation Défis et optimisation
+h3:overhead-surcharge Overhead (surcharge)
+h3:synchronisation 2. Synchronisation
+h3:surcharge-mémoire 3. Surcharge mémoire
+h3:communication-interprocessus 4. Communication inter‑processus
+h3:sécurité-des-données-parallélisme-distribué 5. Sécurité des données (parallélisme distribué)
+

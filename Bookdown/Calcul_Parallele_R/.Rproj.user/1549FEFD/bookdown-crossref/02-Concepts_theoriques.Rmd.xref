@@ -1,0 +1,8 @@
+h1:concepts-fondamentaux Concepts fondamentaux
+h2:coeurs-du-processeur Coeurs du Processeur
+h2:threads-ou-processeurs-logiques Threads (ou Processeurs Logiques)
+h2:hyper-threading Hyper-threading
+h3:lien-entre-coeurs-threads-et-calcul-parallele Lien entre Coeurs, Threads et calcul parallele
+h2:programme-maître-et-son-rôle-dans-le-calcul-parallèle Programme Maître et son rôle dans le calcul parallèle
+h3:cluster-et-worker Cluster et worker
+

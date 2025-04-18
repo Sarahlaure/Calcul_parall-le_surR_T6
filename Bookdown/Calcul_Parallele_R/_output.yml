@@ -1,0 +1,11 @@
+bookdown::gitbook:
+  css: style.css
+  split_by: chapter
+  number_sections: false  #true
+  toc_depth: 4
+  fig_caption: true
+  highlight: tango
+  citation_package: natbib
+  includes:
+    after_body: footer.html
+

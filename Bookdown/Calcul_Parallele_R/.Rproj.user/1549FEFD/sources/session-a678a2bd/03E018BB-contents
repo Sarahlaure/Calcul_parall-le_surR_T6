@@ -1,0 +1,90 @@
+---
+output:
+  pdf_document:
+    latex_engine: xelatex
+    keep_tex: true
+header-includes:
+  - \usepackage{hyperref}
+  - \usepackage{amsmath}
+  - \usepackage{amssymb}
+  - \usepackage{graphicx}
+  - \usepackage{fontspec}
+  - \setmainfont{Cambria}
+  - \renewcommand{\normalsize}{\fontsize{14}{16}\selectfont}
+  - \setsansfont{Franklin Gothic Demi Cond}
+  - \setmonofont{Courier New}
+  - \usepackage[margin=1in]{geometry}
+  - \usepackage{titlesec}
+  - \titleformat{\section}{\Huge\bfseries\color{blue}}{\thesection}{1em}{}
+  - \titleformat{\subsection}{\huge\bfseries\color{blue}}{\thesubsection}{1em}{}
+  - \titleformat{\subsubsection}{\LARGE\bfseries\color{blue}}{\thesubsubsection}{1em}{}
+  - \usepackage{tocloft}
+  - \renewcommand{\cftsecfont}{\small}   
+  - \renewcommand{\cftsubsecfont}{\footnotesize} 
+  - \renewcommand{\cftsecpagefont}{\small}   
+  - \renewcommand{\cftsubsecpagefont}{\footnotesize}
+  - \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{=tex}
+\begin{titlepage}
+    \begin{center}
+        \textbf{\LARGE RÉPUBLIQUE DU SÉNÉGAL}\\[0.1cm]
+        \includegraphics[width=3cm]{LOGO3.JPG} \\[0.1cm]  % Insère le chemin de ton logo
+        \textbf{\large Un Peuple - Un But - Une Foi}\\[0.2cm]
+        
+        \textbf{\LARGE Ministère de l'Économie, du Plan et de la Coopération}\\[0.1cm]
+        \includegraphics[width=4cm]{LOGO2.JPG} \\[0.1cm] 
+        
+        \textbf{\large Agence Nationale de la Statistique et de la Démographie (ANSD)}\\[0.2cm]
+        
+        \includegraphics[width=4cm]{LOGO1.JPG} \\[0.1cm]  
+        
+        \textbf{\large École Nationale de la Statistique et de l'Analyse Économique (ENSAE | Pierre Ndiaye)}\\[0.4cm]
+        
+        \textbf{\LARGE PROJET STATISTIQUES AVEC R :}\\[0.3cm]
+        \textbf{\Huge \color{blue} \textsf{Calcul Parallèle sur R}}\\[0.2cm]
+        \rule{\linewidth}{0.2mm} \\[0.5cm]
+        
+        \begin{minipage}{0.5\textwidth}
+    \begin{flushleft} \large
+        \emph{\textsf{Rédigé par :}}\\
+        \textbf{DIALLO Aissatou Sega}\\
+        \textbf{FOGWOUNG DJOUFACK Sarah-Laure}\\
+        \textit{Élèves Ingénieurs Statisticiens Économistes}
+    \end{flushleft}
+\end{minipage}
+        \hfill
+        \begin{minipage}{0.4\textwidth}
+            \begin{flushright} \large
+                \emph{\textsf{Sous la supervision de :}} \\
+                \textbf{M. Aboubacar HEMA}\\
+                \textit{Research Analyst }
+            \end{flushright}
+        \end{minipage}
+
+        \vfill
+
+        {\large \textsf{Année scolaire : 2024/2025}}\\[0.5cm]
+        
+    \end{center}
+\end{titlepage}
+```
+
+# Introduction
+
+## Contexte et motivations ayant donné lieu au calcul parallele
+
+L’ère du Big Data, marquée par l’explosion des réseaux sociaux, de l’IoT (Internet des Objets), et des simulations numériques, a entraîné une croissance vertigineuse des données. Selon IBM, 90 % des données mondiales ont été générées au cours des deux dernières années seulement – un rythme qui s’accélère avec plus de 2,5 trillions d’octets créés quotidiennement (https://bernardmarr.com/how-much-data-do-we-create-every-day-the-mind-blowing-stats-everyone-should-read/.
+
+Les applications critiques comme l’analyse financière en temps réel, l’entraînement de modèles de Deep Learning (ex : GPT-4 avec 1,7 trillion de paramètres), ou les prévisions météorologiques à haute résolution, exigent désormais des traitements en millisecondes. Or, un processeur monocœur classique ne peut traiter qu’environ 3 milliards d’instructions par seconde (3 GHz), rendant le calcul séquentiel totalement inadapté à ces défis.
+
+## Loi de Moore et plafonnement des fréquences CPU 
+
+Les processeurs modernes reposent sur des milliards de transistors, des micro-interrupteurs qui exécutent des calculs. Selon la loi de Moore (1965), leur nombre double tous les deux ans, permettant pendant des décennies d’augmenter la fréquence d’horloge (GHz), c’est-à-dire le rythme auquel ces transistors s’activent. Ainsi, un CPU à 3 GHz réalise 3 milliards d’opérations par seconde. Cependant, au-delà de ~4 GHz, la chaleur et la consommation d’énergie deviennent ingérables. 
+
+Pour contourner cette limite, l’industrie a abandonné l’idée d’un cœur unique ultra-rapide et a opté pour le multi-core en ajoutant plusieurs cœurs sur une même puce.Chacun fonctionne à une fréquence raisonnable, mais leur travail combiné permet de traiter des tâches en parallèle. Surtout, le multi-core répartit la chaleur sur toute la surface du CPU, évitant les points chauds et facilitant le travail des systèmes de refroidissement (ventilateurs, radiateurs). Cette approche est aujourd’hui indispensable pour le Big Data ou l’apprentissage automatique, où des milliards de données doivent être traitées sans surchauffer les machines.
+

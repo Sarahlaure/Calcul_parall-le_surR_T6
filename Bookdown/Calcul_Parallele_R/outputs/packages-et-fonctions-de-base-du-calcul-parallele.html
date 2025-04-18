@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Packages et fonctions de base du calcul parallele | Calcul_Parallele_R.knit</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Packages et fonctions de base du calcul parallele | Calcul_Parallele_R.knit" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Packages et fonctions de base du calcul parallele | Calcul_Parallele_R.knit" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="concepts-fondamentaux.html"/>
+<link rel="next" href="patterns-essentiels.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="section.html"><a href="section.html"><i class="fa fa-check"></i>.</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#contexte-et-motivations-ayant-donné-lieu-au-calcul-parallele"><i class="fa fa-check"></i>1- Contexte et motivations ayant donné lieu au calcul parallele</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#loi-de-moore-et-plafonnement-des-fréquences-cpu"><i class="fa fa-check"></i>2- Loi de Moore et plafonnement des fréquences CPU</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="présentation-du-calcul-parallele.html"><a href="présentation-du-calcul-parallele.html"><i class="fa fa-check"></i>Présentation du calcul parallele</a>
+<ul>
+<li class="chapter" data-level="" data-path="présentation-du-calcul-parallele.html"><a href="présentation-du-calcul-parallele.html#définition"><i class="fa fa-check"></i>Définition</a></li>
+<li class="chapter" data-level="" data-path="présentation-du-calcul-parallele.html"><a href="présentation-du-calcul-parallele.html#comparaison-calcul-parallele-vs-calcul-sequentielle"><i class="fa fa-check"></i>Comparaison calcul parallele vs calcul sequentielle</a></li>
+<li class="chapter" data-level="" data-path="présentation-du-calcul-parallele.html"><a href="présentation-du-calcul-parallele.html#types-de-parallélisme"><i class="fa fa-check"></i>Types de parallélisme</a>
+<ul>
+<li class="chapter" data-level="" data-path="présentation-du-calcul-parallele.html"><a href="présentation-du-calcul-parallele.html#parallélisme-des-données-vs-paralléliste-des-taches"><i class="fa fa-check"></i>Parallélisme des données vs paralléliste des taches</a>
+<ul>
+<li class="chapter" data-level="" data-path="présentation-du-calcul-parallele.html"><a href="présentation-du-calcul-parallele.html#parallélisme-de-données"><i class="fa fa-check"></i>Parallélisme de données</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="présentation-du-calcul-parallele.html"><a href="présentation-du-calcul-parallele.html#parallélisme-de-tâches"><i class="fa fa-check"></i>Parallélisme de tâches</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="présentation-du-calcul-parallele.html"><a href="présentation-du-calcul-parallele.html#parallélisme-distribué-et-parallélisme-partagé"><i class="fa fa-check"></i>Parallélisme distribué et parallélisme partagé</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="concepts-fondamentaux.html"><a href="concepts-fondamentaux.html"><i class="fa fa-check"></i>Concepts fondamentaux</a>
+<ul>
+<li class="chapter" data-level="" data-path="concepts-fondamentaux.html"><a href="concepts-fondamentaux.html#coeurs-du-processeur"><i class="fa fa-check"></i>Coeurs du Processeur</a></li>
+<li class="chapter" data-level="" data-path="concepts-fondamentaux.html"><a href="concepts-fondamentaux.html#threads-ou-processeurs-logiques"><i class="fa fa-check"></i>Threads (ou Processeurs Logiques)</a></li>
+<li class="chapter" data-level="" data-path="concepts-fondamentaux.html"><a href="concepts-fondamentaux.html#hyper-threading"><i class="fa fa-check"></i>Hyper-threading</a>
+<ul>
+<li class="chapter" data-level="" data-path="concepts-fondamentaux.html"><a href="concepts-fondamentaux.html#lien-entre-coeurs-threads-et-calcul-parallele"><i class="fa fa-check"></i>Lien entre Coeurs, Threads et calcul parallele</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="concepts-fondamentaux.html"><a href="concepts-fondamentaux.html#programme-maître-et-son-rôle-dans-le-calcul-parallèle"><i class="fa fa-check"></i>Programme Maître et son rôle dans le calcul parallèle</a>
+<ul>
+<li class="chapter" data-level="" data-path="concepts-fondamentaux.html"><a href="concepts-fondamentaux.html#cluster-et-worker"><i class="fa fa-check"></i>Cluster et worker</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="packages-et-fonctions-de-base-du-calcul-parallele.html"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html"><i class="fa fa-check"></i>Packages et fonctions de base du calcul parallele</a>
+<ul>
+<li class="chapter" data-level="" data-path="packages-et-fonctions-de-base-du-calcul-parallele.html"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#package-parallel"><i class="fa fa-check"></i>1. Package <strong>parallel</strong></a></li>
+<li class="chapter" data-level="" data-path="packages-et-fonctions-de-base-du-calcul-parallele.html"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#package-tictoc"><i class="fa fa-check"></i>2. Package <strong>tictoc</strong></a></li>
+<li class="chapter" data-level="" data-path="packages-et-fonctions-de-base-du-calcul-parallele.html"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#package-foreach-doparallel"><i class="fa fa-check"></i>3. Package <strong>foreach + doParallel</strong></a></li>
+<li class="chapter" data-level="" data-path="packages-et-fonctions-de-base-du-calcul-parallele.html"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#packages-future-et-future.apply"><i class="fa fa-check"></i>4. Packages <strong>future</strong> et <strong>future.apply</strong></a></li>
+<li class="chapter" data-level="" data-path="packages-et-fonctions-de-base-du-calcul-parallele.html"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#package-snow-simple-network-of-workstations"><i class="fa fa-check"></i>5. Package <strong>snow</strong> (Simple Network of Workstations)</a></li>
+<li class="chapter" data-level="" data-path="packages-et-fonctions-de-base-du-calcul-parallele.html"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#package-snowft"><i class="fa fa-check"></i>6. Package <strong>snowFT</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="patterns-essentiels.html"><a href="patterns-essentiels.html"><i class="fa fa-check"></i>Patterns essentiels</a>
+<ul>
+<li class="chapter" data-level="" data-path="patterns-essentiels.html"><a href="patterns-essentiels.html#fork-join"><i class="fa fa-check"></i>Fork-join</a></li>
+<li class="chapter" data-level="" data-path="patterns-essentiels.html"><a href="patterns-essentiels.html#map-reduce"><i class="fa fa-check"></i>Map Reduce</a></li>
+<li class="chapter" data-level="" data-path="patterns-essentiels.html"><a href="patterns-essentiels.html#divide-conquer"><i class="fa fa-check"></i>Divide &amp; Conquer</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html"><i class="fa fa-check"></i>PERFORMANCE ET ASPECTS PRATIQUES</a>
+<ul>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#métriques-de-base"><i class="fa fa-check"></i>Métriques de base</a>
+<ul>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#speedup"><i class="fa fa-check"></i>Speedup</a></li>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#efficacité"><i class="fa fa-check"></i>Efficacité</a></li>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#scalabilité"><i class="fa fa-check"></i>Scalabilité</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#défis-et-optimisation"><i class="fa fa-check"></i>Défis et optimisation</a>
+<ul>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#overhead-surcharge"><i class="fa fa-check"></i>Overhead (surcharge)</a></li>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#synchronisation"><i class="fa fa-check"></i>2. Synchronisation</a></li>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#surcharge-mémoire"><i class="fa fa-check"></i>3. Surcharge mémoire</a></li>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#communication-interprocessus"><i class="fa fa-check"></i>4. Communication inter‑processus</a></li>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#sécurité-des-données-parallélisme-distribué"><i class="fa fa-check"></i>5. Sécurité des données (parallélisme distribué)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bonnes-pratiques.html"><a href="bonnes-pratiques.html"><i class="fa fa-check"></i>Bonnes pratiques</a>
+<ul>
+<li class="chapter" data-level="" data-path="bonnes-pratiques.html"><a href="bonnes-pratiques.html#a-ne-pas-paralléliser-des-tâches-trop-légères"><i class="fa fa-check"></i>a) Ne pas paralléliser des tâches trop légères</a></li>
+<li class="chapter" data-level="" data-path="bonnes-pratiques.html"><a href="bonnes-pratiques.html#b-trouver-le-bon-équilibre-entre-nombre-de-cœurs-et-taille-de-tâche"><i class="fa fa-check"></i>b) Trouver le bon équilibre entre nombre de cœurs et taille de tâche</a></li>
+<li class="chapter" data-level="" data-path="bonnes-pratiques.html"><a href="bonnes-pratiques.html#c-optimisation-de-la-mémoire-et-du-cpu"><i class="fa fa-check"></i>c) Optimisation de la mémoire et du CPU</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i>Conclusion</a></li>
+<li class="chapter" data-level="" data-path="références.html"><a href="références.html"><i class="fa fa-check"></i>Références</a>
+<ul>
+<li class="chapter" data-level="" data-path="références.html"><a href="références.html#documentation-officielle-et-tutoriels"><i class="fa fa-check"></i>Documentation officielle et tutoriels</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="packages-et-fonctions-de-base-du-calcul-parallele" class="section level1 hasAnchor">
+<h1>Packages et fonctions de base du calcul parallele<a href="packages-et-fonctions-de-base-du-calcul-parallele.html#packages-et-fonctions-de-base-du-calcul-parallele" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="package-parallel" class="section level2 hasAnchor">
+<h2>1. Package <strong>parallel</strong><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#package-parallel" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Ce package fait partie de l’installation standard de R et est utilisé pour répartir des tâches entre les cœurs d’un même ordinateur (et donc dans un parallélisme partagé).</p>
+<ul>
+<li><code>makeCluster(n)</code> : crée un cluster de <code>n</code> workers.</li>
+<li><code>clusterExport(cl, varlist)</code> : exporte les objets R nécessaires aux workers dans leurs environnements respectifs.</li>
+<li>`clusterEvaLQ(cl, expr): Exécute une commande dans tous les workers</li>
+<li><code>parLapply(cl, X, FUN)</code> : version parallèle de `lapply. La base de données ou tout autre objet X est divisé en sous ensemble qui seront traité par un worker différent du cluster cl et chaque worker applique la fonction FUN a chaque élément à sa charge. Et à la fin les résultats sont présentés sous forme de liste.</li>
+<li><code>parSapply(cl, X, FUN)</code> : Meme principe que parLapply mais ici le résultat est simplifié et n’est pas forcément sous forme d’une liste.</li>
+<li><code>stopCluster(cl)</code> : arrête le cluster.</li>
+<li><code>clusterApply()</code> : applique la fonction fun sur les éléments de x, chaque élément étant envoyé à un worker du cluster cl.</li>
+</ul>
+<p>parLappy, parMapply sont les versions paralleles de lapply et sapply respectivement.
+(lapply applique une fonction à chaque élément d’une liste ou d’un vecteur et renvoie une liste de résultats, tandis que sapply fait pareil mais mais essaie de simplifier la réponse et, il renvoie un vecteur au lieu d’une liste (si tous les résultats sont du même type).)</p>
+<p>Un exemple d’application des fonctions de ce package est ce qui est fait dans l’application du fork-join.</p>
+</div>
+<div id="package-tictoc" class="section level2 hasAnchor">
+<h2>2. Package <strong>tictoc</strong><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#package-tictoc" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Ce package mesure le temps que prend une tâche à s’exécuter.
+Ses fonctions clé sont:
+- <code>tic(label)</code>: Pour lancer le chronomètre , le label étant optionnel et servant à identifier le chronometre.<br />
+- <code>toc</code>: Arrête le chronometre et affiche le temps écoulé</p>
+</div>
+<div id="package-foreach-doparallel" class="section level2 hasAnchor">
+<h2>3. Package <strong>foreach + doParallel</strong><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#package-foreach-doparallel" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Ces packages permettent de créer des boucles parallèles. foreach fournit la syntaxe, tandis que doParallel permet de connecter cette syntaxe à un backend de calcul parallèle (comme un cluster).er.</p>
+<p>Ses principales fonctions sont:
+- <code>registerDoParallel(n)</code>: crée un cluster de <code>n</code> workers pour exécuter des boucles en parallèle.
+- <code>foreach()</code>: Permet d’itérer de manière parallèle sur une séquence donnée.
+- <code>%dopar%</code>: L’opérateur utilisé avec foreach pour paralléliser l’exécution de la boucle (en remplacement de %do%) .</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb23-1" tabindex="-1"></a><span class="fu">library</span>(foreach)</span>
+<span id="cb23-2"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb23-2" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
+<span id="cb23-3"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb23-3" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb23-4" tabindex="-1"></a><span class="co"># Création du cluster pour l&#39;execution des boucles en paralleles</span></span>
+<span id="cb23-5"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb23-5" tabindex="-1"></a><span class="fu">registerDoParallel</span>(<span class="dv">2</span>)</span>
+<span id="cb23-6"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb23-6" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb23-7" tabindex="-1"></a>resultats <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">i =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>) <span class="sc">%dopar%</span> <span class="fu">sqrt</span>(i)</span>
+<span id="cb23-8"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb23-8" tabindex="-1"></a><span class="fu">print</span>(resultats)</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 1.414214
+## 
+## [[3]]
+## [1] 1.732051
+## 
+## [[4]]
+## [1] 2
+## 
+## [[5]]
+## [1] 2.236068
+## 
+## [[6]]
+## [1] 2.44949
+## 
+## [[7]]
+## [1] 2.645751
+## 
+## [[8]]
+## [1] 2.828427
+## 
+## [[9]]
+## [1] 3
+## 
+## [[10]]
+## [1] 3.162278
+## 
+## [[11]]
+## [1] 3.316625
+## 
+## [[12]]
+## [1] 3.464102
+## 
+## [[13]]
+## [1] 3.605551
+## 
+## [[14]]
+## [1] 3.741657
+## 
+## [[15]]
+## [1] 3.872983
+## 
+## [[16]]
+## [1] 4
+## 
+## [[17]]
+## [1] 4.123106
+## 
+## [[18]]
+## [1] 4.242641
+## 
+## [[19]]
+## [1] 4.358899
+## 
+## [[20]]
+## [1] 4.472136</code></pre>
+<p>Ici, le calcul de racines carrées est réparti entre 2 cœurs.</p>
+</div>
+<div id="packages-future-et-future.apply" class="section level2 hasAnchor">
+<h2>4. Packages <strong>future</strong> et <strong>future.apply</strong><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#packages-future-et-future.apply" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Les packages <code>future</code> et <code>future.apply</code> ont été conçus pour rendre le calcul parallèle en R à la fois plus simple, plus lisible et plus flexible. Contrairement à des packages comme <code>parallel</code>, où il faut explicitement créer un cluster, gérer les workers et exporter les variables, ici on adopte une approche déclarative : <strong>on décrit ce qu’on veut faire</strong>, et <strong>le système se charge de l’exécuter</strong> selon un plan défini.</p>
+<p>Ces packages permettent de paralléliser facilement des fonctions comme <code>lapply()</code> ou <code>sapply()</code> <strong>sans avoir à se soucier des aspects techniques</strong> (gestion des cœurs, communication entre workers, etc.). Il devient ainsi très simple de basculer d’une exécution séquentielle à une exécution parallèle, en changeant une seule ligne de code.</p>
+<p>Ses principales fonctions sont:</p>
+<ul>
+<li><p><code>plan(strategy)</code><br />
+Cette fonction définit le <strong>plan d’exécution</strong>, c’est-à-dire la manière dont les tâches vont être exécutées :</p>
+<ul>
+<li><code>plan(sequential)</code> : exécution séquentielle classique, une tâche après l’autre (par défaut).</li>
+<li><code>plan(multisession)</code> : exécution parallèle sur plusieurs cœurs, chaque tâche étant lancée dans un processus indépendant. Fonctionne sur <strong>tous les systèmes d’exploitation</strong>, y compris <strong>Windows</strong>.</li>
+<li><code>plan(multicore)</code> : exécution parallèle optimisée pour <strong>Linux/Mac</strong> uniquement.</li>
+</ul></li>
+<li><p><code>future_lapply(X, FUN)</code><br />
+Version parallèle de <code>lapply()</code>. Chaque élément de <code>X</code> est traité indépendamment par la fonction <code>FUN</code>, de manière simultanée sur les différents cœurs disponibles. Le résultat est retourné sous forme de <strong>liste</strong>.</p></li>
+<li><p><code>future_sapply(X, FUN)</code><br />
+Version parallèle de <code>sapply()</code>. Fonctionne comme <code>future_lapply()</code> mais <strong>le résultat est automatiquement simplifié</strong> (vecteur, matrice…), comme avec <code>sapply()</code>.</p></li>
+</ul>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb25-1" tabindex="-1"></a><span class="fu">library</span>(future)</span>
+<span id="cb25-2"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb25-2" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
+<span id="cb25-3"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb25-3" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb25-4" tabindex="-1"></a><span class="co"># Définir le plan d&#39;exécution parallèle</span></span>
+<span id="cb25-5"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb25-5" tabindex="-1"></a><span class="fu">plan</span>(multisession)  <span class="co"># Utiliser plusieurs cœurs sur tous les systèmes d&#39;exploitation</span></span>
+<span id="cb25-6"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb25-6" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb25-7" tabindex="-1"></a><span class="co"># Créer une liste de nombres</span></span>
+<span id="cb25-8"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb25-8" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb25-9"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb25-9" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb25-10" tabindex="-1"></a><span class="co"># Appliquer une fonction de manière parallèle</span></span>
+<span id="cb25-11"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb25-11" tabindex="-1"></a>resultats <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(x, <span class="cf">function</span>(i) <span class="fu">sqrt</span>(i))</span>
+<span id="cb25-12"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb25-12" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb25-13" tabindex="-1"></a><span class="co"># Afficher les résultats</span></span>
+<span id="cb25-14"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#cb25-14" tabindex="-1"></a><span class="fu">print</span>(resultats)</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 1.414214
+## 
+## [[3]]
+## [1] 1.732051
+## 
+## [[4]]
+## [1] 2
+## 
+## [[5]]
+## [1] 2.236068
+## 
+## [[6]]
+## [1] 2.44949
+## 
+## [[7]]
+## [1] 2.645751
+## 
+## [[8]]
+## [1] 2.828427
+## 
+## [[9]]
+## [1] 3
+## 
+## [[10]]
+## [1] 3.162278</code></pre>
+</div>
+<div id="package-snow-simple-network-of-workstations" class="section level2 hasAnchor">
+<h2>5. Package <strong>snow</strong> (Simple Network of Workstations)<a href="packages-et-fonctions-de-base-du-calcul-parallele.html#package-snow-simple-network-of-workstations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>snow</strong> est une alternative plus flexible à parallel, notamment pour les environnements distribués (plusieurs machines), mais fonctionne aussi en local.</p>
+<p>Il comporte les fonctions suivantes:</p>
+<ul>
+<li><p><code>makeCluster()</code>: crée un cluster de workers, localement ou à distance.</p></li>
+<li><p><code>clusterExport()</code>: clusterApply(), clusterMap(): mêmes principes que dans parallel.</p></li>
+<li><p><code>snow.time()</code>: mesure le temps d’exécution d’une commande dans un cluster.</p></li>
+</ul>
+</div>
+<div id="package-snowft" class="section level2 hasAnchor">
+<h2>6. Package <strong>snowFT</strong><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#package-snowft" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>snowFT</strong> est une extension du package snow permettant la tolérance aux pannes (fault tolerance). Il est utile dans les environnements instables ou avec de longs calculs, car il permet de redémarrer un worker qui a échoué sans compromettre tout le processus.</p>
+<p>Ici <code>makeClusterFT()</code>: crée un cluster avec tolérance aux pannes.
+Compatible avec les fonctions classiques de snow.</p>
+
+</div>
+</div>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Footer</title>
+</head>
+<body>
+
+  <div class="book-footer">
+    © Exposé sur le calcul parallèle sur R | Réalisé dans le cadre du cours de Projet statistique avec R
+  </div>
+
+</body>
+</html>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="concepts-fondamentaux.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="patterns-essentiels.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

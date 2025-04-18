@@ -1,0 +1,9 @@
+# Références 
+
+La rédaction de ce bookdown sur `Calcul_Parallèle_R` s'appuie sur plusieurs ressources officielles et tutoriels détaillés.  
+
+## Documentation officielle et tutoriels  
+- [Formation sur le calcul parallèle](https://r-dev-perf.borishejblum.science/parallelisation-du-code-r)  
+- [Vidéo youtube explicative sur le calcul parallele](https://youtu.be/ZpRnpRb2ZaU?si=nmxFW08BOE84zQ84)  
+- [Vidéo youtube explicative sur le Divide and conquer](https://youtu.be/Dt-QvmeqiH8?si=zpxsMldVrx0uAwLe)  
+

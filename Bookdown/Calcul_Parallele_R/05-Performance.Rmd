@@ -1,0 +1,231 @@
+# PERFORMANCE ET ASPECTS PRATIQUES 
+
+## Métriques de base 
+
+### Speedup
+
+Le speedup se définit comme le ratio du temps d'exécution d'une tâche en mode séquentiel (T₁) sur le temps en mode parallèle (Tₚ) :
+$$
+\text{Speedup} = \frac{T_1}{T_p}
+$$
+--- Speedup pour une tache légère (pour montrer que dans ce cas, le calcul parallele est plus couteux)
+
+Ici on utilise une fonction qui calcule la somme des carrés des entiers de 1 à 10 000 suivant les methodes parallele et sequentielle. 
+
+```{r speedup1, eval=FALSE, message=FALSE, warning=FALSE}
+
+library(parallel)
+library(tictoc)
+
+# Fonction séquentielle
+tache_sequentielle <- function(n = 1e4) {
+  sum((1:n)^2)
+}
+
+# Fonction parallèle
+tache_parallele <- function(n = 1e4, coeurs = 2) {
+  cl <- makeCluster(coeurs)  # Création d'un cluster de travail avec un nombre spécifié de cœurs
+  clusterExport(cl, varlist = "n")  # Exporter la variable 'n' dans les processus du cluster
+  resultat <- parLapply(cl, split(1:n, cut(1:n, coeurs)), function(x) sum(x^2))  # Calcul parallèle des carrés, chaque sous-ensemble 'x' est traité sur un cœur
+  stopCluster(cl)  # Arrêter le cluster une fois le calcul terminé
+  Reduce("+", resultat)  # Agréger les résultats obtenus sur les différents cœurs
+}
+
+# Liste des cœurs à tester
+liste_coeurs <- c(1, 2, 3, 4, 5, 6, 8)
+
+# Initialisation du tableau des résultats
+resultats_simples <- data.frame(Cœurs = liste_coeurs, Temps = NA, Speedup = NA)
+
+# Temps de référence (séquentiel)
+temps_seq <- system.time(tache_sequentielle())[3]
+
+# Remplissage du tableau
+for (i in seq_along(liste_coeurs)) {
+  nb_coeurs <- liste_coeurs[i]
+  
+  if (nb_coeurs == 1) {
+    resultats_simples$Temps[i] <- round(temps_seq, 4)
+    resultats_simples$Speedup[i] <- 1
+  } else {
+    temps_par <- system.time(tache_parallele(1e4, nb_coeurs))[3]
+    resultats_simples$Temps[i] <- round(temps_par, 4)
+    resultats_simples$Speedup[i] <- round(temps_seq / temps_par, 2)
+  }
+}
+
+# Affichage du tableau final
+resultats_simples
+
+```
+En effet, on observe que la version séquentielle de la fonction prend environ 0,32 secondes, tandis que la version parallèle devient de plus en plus lente à mesure qu’on augmente le nombre de cœurs. Le tableau récapitulatif montre ainsi que le speedup est inférieur à 1 dans tous les cas, ce qui signifie qu’il n’y a aucun gain de performance – au contraire, l'exécution parallèle est plus lente. Cela s’explique par le coût de la création du cluster, de la répartition des données, et de la communication entre les cœurs, qui devient significatif face à une tâche aussi légère. Ces résultats montrent clairement que le parallélisme n’est pas avantageux pour les tâches simples. 
+
+--- Speedup pour une tache complexe 
+
+Produit matricielle de matrice de taille 1000*1000
+
+Pour le calcul parallele, on donne des groupes de C_{ij} avec \[
+C_{ij} = \sum_{k=1}^{n} A_{ik} \times B_{kj}
+\] à différents coeurs pour les calculs. 
+
+```{r speedup2,  eval=FALSE,message=FALSE, warning=FALSE}
+library(parallel)
+library(tictoc)
+
+# Fonction pour multiplier une sous-matrice (partie d'une matrice)
+multiplication_matrice <- function(A, B, lignes, colonnes) {
+  res <- matrix(0, nrow = length(lignes), ncol = length(colonnes))
+  for (i in seq_along(lignes)) {
+    for (j in seq_along(colonnes)) {
+      res[i, j] <- sum(A[lignes[i], ] * B[, colonnes[j]])  # Produit scalaire des lignes et colonnes
+    }
+  }
+  return(res)
+}
+
+# Fonction principale pour multiplier deux grandes matrices en parallèle
+calcul_multiplication_parallele <- function(A, B, sections = 4) {
+  n <- nrow(A)
+  # Diviser les lignes et colonnes en sous-ensembles équilibrés
+  lignes_par_section <- split(1:n, cut(1:n, sections, labels = FALSE))
+  colonnes_par_section <- split(1:n, cut(1:n, sections, labels = FALSE))
+  
+  # Créer un cluster
+  cl <- makeCluster(detectCores())  # Utilise tous les cœurs disponibles
+  clusterExport(cl, varlist = c("A", "B", "multiplication_matrice"))  # Exporte seulement les variables nécessaires
+  
+  # Paralléliser la multiplication
+  resultats <- parLapply(cl, 1:sections, function(i) {
+    lignes <- lignes_par_section[[i]]
+    colonnes <- colonnes_par_section[[i]]
+    multiplication_matrice(A, B, lignes, colonnes)
+  })
+  stopCluster(cl)
+  
+  # Combiner les résultats dans la matrice finale
+  matrice_resultat <- matrix(0, nrow = n, ncol = n)
+  for (i in 1:sections) {
+    lignes <- lignes_par_section[[i]]
+    colonnes <- colonnes_par_section[[i]]
+    matrice_resultat[lignes, colonnes] <- resultats[[i]]
+  }
+  
+  return(matrice_resultat)
+}
+
+# Créer deux grandes matrices de taille 1000x1000
+set.seed(123)
+A <- matrix(rnorm(1000^2), nrow = 1000, ncol = 1000)
+B <- matrix(rnorm(1000^2), nrow = 1000, ncol = 1000)
+
+# Liste des sections et cores à tester
+liste_coeurs <- c(1, 2, 3, 4, 5, 6, 8)
+resultats_multiplication <- data.frame(Cœurs = liste_coeurs, Temps = NA, Speedup = NA)
+
+# Calcul séquentiel de référence (temps pour la multiplication sans parallélisme)
+temps_seq <- system.time({
+  res_seq <- multiplication_matrice(A, B, 1:nrow(A), 1:ncol(B))
+})[3]
+
+# Remplissage du tableau des résultats
+for (i in seq_along(liste_coeurs)) {
+  nb_coeurs <- liste_coeurs[i]
+  
+  if (nb_coeurs == 1) {
+    resultats_multiplication$Temps[i] <- round(temps_seq, 4)
+    resultats_multiplication$Speedup[i] <- 1
+  } else {
+    temps_par <- system.time(calcul_multiplication_parallele(A, B, sections = nb_coeurs))[3]
+    resultats_multiplication$Temps[i] <- round(temps_par, 4)
+    resultats_multiplication$Speedup[i] <- round(temps_seq / temps_par, 2)
+  }
+}
+
+# Affichage uniquement du tableau récapitulatif des résultats
+print(resultats_multiplication)
+```
+
+### Efficacité
+
+L'efficacité d'un calcul parallèle peut être définie comme le rapport entre le temps d'exécution séquentiel et le temps d'exécution parallèle, normalisé par le nombre de cœurs utilisés, et donc c'est égale au rapport du speedup sur le nombre de coeurs: 
+
+\[
+E = \frac{S}{N_{\text{coeurs}}} = \frac{T_{\text{par}} \times N_{\text{coeurs}}}{T_{\text{seq}}}
+\]
+
+En d'autres termes, l'efficacité mesure combien de travail parallèle chaque cœur accomplit. Plus l'efficacité est élevée, plus le calcul est optimal avec un nombre donné de cœurs. 
+
+Au-delà d’un certain nombre de cœurs, l’ajout de ressources ne se traduit plus par un gain proportionnel de performance du fait du temps supplémentaire consacré à la coordination :
+création des clusters, répartition des données, synchronisation des résultats… Ces opérations, bien que nécessaires, n'accélèrent pas directement le calcul.
+
+### Scalabilité
+
+La scalabilité est étroitement liée à l’efficacité, mais elle s’intéresse à l’évolution de la performance lorsqu’on augmente les ressources.
+
+Elle mesure la capacité d’un programme à maintenir ou améliorer ses performances lorsqu’on augmente le nombre de cœurs, la taille des données ou la mémoire disponible.
+
+- Si un programme est **hautement scalable**, le temps d’exécution diminue régulièrement à mesure qu’on ajoute des cœurs.
+- Si la scalabilité est **faible**, ajouter des ressources ne sert plus à rien au bout d’un certain point — voire ça ralentit à cause de la coordination nécessaire entre les threads (synchronisation, accès partagés, etc.).
+
+## Défis et optimisation
+
+Le calcul parallèle apporte des gains de performance, mais soulève plusieurs challenges qu’il faut gérer pour en tirer pleinement parti.
+
+### Overhead (surcharge)
+
+**Description**  
+L’overhead correspond au temps et aux ressources consommés par la gestion du parallélisme (création de workers, allocation mémoire, communication…).
+
+**Exemples**  
+- **Partition des tâches** : découpage et distribution des données entre cœurs  
+- **Allocation mémoire** : copies multiples des objets  
+- **Communication** : envoi/reception des résultats intermédiaires  
+
+**Bonnes pratiques**  
+- Ajuster la **taille des tâches** pour amortir le coût de gestion  
+- Choisir des **algorithmes minimisant les échanges** entre workers  
+
+### 2. Synchronisation
+
+**Description**  
+Lorsque des tâches dépendent les unes des autres, les cœurs doivent attendre que certaines étapes soient terminées, ce qui freine le parallélisme.
+
+**Exemples**  
+- Attente d’un résultat avant de poursuivre  
+- **Deadlocks** : blocage mutuel des workers  
+- **Race conditions** : accès concurrent sans verrou  
+
+**Bonnes pratiques**  
+- Réduire les **dépendances** entre tâches  
+- Utiliser des **verrous légers** ou des structures immuables  
+- Ajuster la **granularité** pour limiter les points de synchronisation  
+
+### 3. Surcharge mémoire
+
+**Description**  
+Chaque worker peut créer sa propre copie des données, entraînant une forte consommation mémoire.
+
+**Bonnes pratiques**  
+- Privilégier des structures **légères** (e.g. `data.table`)  
+- Éviter les copies inutiles (passer par référence si possible)  
+- Fermer les clusters inactifs avec `stopCluster()`  
+
+### 4. Communication inter‑processus
+
+**Description**  
+Le coût d’échange de données entre workers (ou nœuds) peut devenir significatif, surtout pour des volumes élevés.
+
+**Bonnes pratiques**  
+- Transférer **uniquement** les variables nécessaires  
+- Regrouper les communications (batch messaging)  
+- Favoriser des calculs **indépendants**  
+
+### 5. Sécurité des données (parallélisme distribué)
+
+**Description**  
+Dans un cluster multi‑machines, les données transitent sur le réseau et doivent être protégées.
+
+**Bonnes pratiques**  
+- Utiliser des canaux sécurisés (SSH, VPN)  
+- Chiffrer ou **sérialiser** les échanges critiques  
+- Sauvegarder régulièrement les résultats intermédiaires  

@@ -1,0 +1,16 @@
+############## LA OU ON DEFINIT LE CONTENU DE NOTRE LIVRE. QUELS CHAPITRES PRENDRE?######################
+
+book_filename: "Calcul_Parallele_R"
+delete_merged_file: true
+output_dir: "outputs"
+
+rmd_files:
+  - Page_de_garde.Rmd #Page de garde
+  - Introduction.Rmd        # Introduction
+  - 01-Définitions.Rmd # Chapitre 1
+  - 02-Concepts_theoriques.Rmd # Chapitre 2
+  - 03-Principaux_packages.Rmd   # Chapitre 3
+  - 04-Patterns_essentiels.Rmd   # Chapitre 4
+  - 05-Performance.Rmd   # Chapitre 5
+  - 06-Bonnes_pratiques.Rmd   # Chapitre 6
+  - 07-references.Rmd   # References

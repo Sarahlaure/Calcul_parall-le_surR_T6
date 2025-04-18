@@ -1,0 +1,21 @@
+{
+    "debugBreakpointsState": {
+        "breakpoints": [
+            {
+                "id": 0,
+                "path": "E:/ISEP 2/MON DOSSIER/APPRENTISSAGE DES VACANCES/ISEP3/ME _ SEMESTRE 2/PROJET STATISTIQUE SOUS R ET PYTHON/GITHUB EXPOSE/Calcul_parall-le_surR_T6/Notebook/Calcul_Parallele_R/Calcul.R",
+                "line_number": 2,
+                "function_steps": "",
+                "function_name": "toplevel",
+                "state": 1,
+                "editor_state": 1,
+                "editor_line_number": 2,
+                "is_pending_debug_completion": false,
+                "needs_updated_steps": false,
+                "type": 1,
+                "is_package_breakpoint": false,
+                "package_name": ""
+            }
+        ]
+    }
+}

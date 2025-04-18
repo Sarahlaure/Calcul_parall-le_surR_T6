@@ -1,0 +1,52 @@
+# Bonnes pratiques 
+
+Dans cette section, nous présentons des recommandations pour optimiser vos workflows parallèles en R. Ces bonnes pratiques vous aideront à éviter les pièges courants et à tirer le meilleur parti de vos ressources matérielles.
+
+## a) Ne pas paralléliser des tâches trop légères
+
+**Pourquoi ?**
+Lorsque la durée d'un traitement séquentiel est très courte (quelques millisecondes), la création et la gestion des processus parallèles (workers) peuvent introduire un **overhead** supérieur au gain escompté. Le résultat peut même être un ralentissement global.
+
+**Comment mesurer ?**
+Avant de paralléliser, comparez systématiquement les temps d'exécution séquentiel et parallèle :
+
+
+## b) Trouver le bon équilibre entre nombre de cœurs et taille de tâche
+
+**Pourquoi ?**
+Attribuer trop de workers à une petite charge de travail génère un overhead inutile. À l'inverse, trop peu de workers pour une grosse tâche sous-utilise vos cœurs physiques.
+
+**Règle empirique**
+Calculez le nombre optimal de workers en fonction du volume de données et d'un grain de tâche minimal :
+
+
+## c) Optimisation de la mémoire et du CPU
+
+**Pourquoi ?**
+La gestion de la mémoire et la planification des processus jouent un rôle clé dans la performance. Des objets trop volumineux en RAM ou une saturation CPU nuisent à l’ensemble du système.
+
+**Recommandations**
+
+1. **Planification dynamique** : laissez R gérer automatiquement les processus.
+
+```{r recommandation1, eval=FALSE, message=FALSE, warning=FALSE}
+plan(multisession)  
+```
+
+2. **Nettoyage de la mémoire** : libérez les gros objets.
+
+```{r recommandation2, eval=FALSE, message=FALSE, warning=FALSE}
+rm(large_object)
+gc()  # Garbage collection
+```
+
+
+3. **Surveillance** : gardez toujours un cœur disponible pour le système.
+
+- Sous **Linux**: utilisez `htop`.
+- Sous **Windows**: ouvrez le Gestionnaire des tâches.
+
+
+# Conclusion
+
+Adapter la parallélisation à la durée et au volume de vos tâches, nettoyer la mémoire et surveiller l’utilisation CPU/RAM vous permettront de maximiser les gains de performance sans perturber l’environnement de travail.

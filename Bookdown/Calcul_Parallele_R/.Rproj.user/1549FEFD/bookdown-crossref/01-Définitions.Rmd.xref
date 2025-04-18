@@ -1,0 +1,9 @@
+h1:présentation-du-calcul-parallele Présentation du calcul parallele
+h2:définition Définition
+h2:comparaison-calcul-parallele-vs-calcul-sequentielle Comparaison calcul parallele vs calcul sequentielle
+h2:types-de-parallélisme Types de parallélisme
+h3:parallélisme-des-données-vs-paralléliste-des-taches Parallélisme des données vs paralléliste des taches
+h4:parallélisme-de-données Parallélisme de données
+h3:parallélisme-de-tâches Parallélisme de tâches
+h2:parallélisme-distribué-et-parallélisme-partagé Parallélisme distribué et parallélisme partagé
+

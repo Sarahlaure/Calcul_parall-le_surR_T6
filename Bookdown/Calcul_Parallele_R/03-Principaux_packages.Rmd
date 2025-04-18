@@ -1,0 +1,105 @@
+# Packages et fonctions de base du calcul parallele
+
+## 1. Package **parallel**
+
+Ce package fait partie de l’installation standard de R et est utilisé pour répartir des tâches entre les cœurs d’un même ordinateur (et donc dans un parallélisme partagé). 
+
+- `makeCluster(n)` : crée un cluster de `n` workers.
+- `clusterExport(cl, varlist)` : exporte les objets R nécessaires aux workers dans leurs environnements respectifs.
+- `clusterEvaLQ(cl, expr): 	Exécute une commande dans tous les workers
+- `parLapply(cl, X, FUN)` : version parallèle de `lapply. La base de données ou tout autre objet X est divisé en sous ensemble qui seront traité par un worker différent du cluster cl et chaque worker applique la fonction FUN a chaque élément à sa charge. Et à la fin les résultats sont présentés sous forme de liste. 
+- `parSapply(cl, X, FUN)` : Meme principe que parLapply mais ici le résultat est simplifié et n'est pas forcément sous forme d'une liste. 
+- `stopCluster(cl)` : arrête le cluster.
+- `clusterApply()`  : applique la fonction fun sur les éléments de x, chaque élément étant envoyé à un worker du cluster cl.
+
+parLappy, parMapply sont les versions paralleles de lapply et sapply respectivement. 
+(lapply applique une fonction à chaque élément d'une liste ou d'un vecteur et renvoie une liste de résultats, tandis que sapply fait pareil mais mais essaie de simplifier la réponse et, il renvoie un vecteur au lieu d'une liste (si tous les résultats sont du même type).)
+
+Un exemple d'application des fonctions de ce package est ce qui est fait dans l'application du fork-join.
+
+## 2. Package **tictoc** 
+
+Ce package mesure le temps que prend une tâche à s'exécuter.
+Ses fonctions clé sont: 
+- `tic(label)`: Pour lancer le chronomètre , le label étant optionnel et servant à identifier le chronometre.   
+- `toc`: Arrête le chronometre et affiche le temps écoulé 
+
+## 3. Package **foreach + doParallel** 
+
+Ces packages permettent de créer des boucles parallèles. foreach fournit la syntaxe, tandis que doParallel permet de connecter cette syntaxe à un backend de calcul parallèle (comme un cluster).er.
+
+Ses principales fonctions sont: 
+- `registerDoParallel(n)`: crée un cluster de `n` workers pour exécuter des boucles en parallèle.
+- `foreach()`: Permet d'itérer de manière parallèle sur une séquence donnée.
+- `%dopar%`: L'opérateur utilisé avec foreach pour paralléliser l'exécution de la boucle (en remplacement de %do%) .
+
+```{r foreach_doParallel, message=FALSE, warning=FALSE}
+library(foreach)
+library(doParallel)
+
+# Création du cluster pour l'execution des boucles en paralleles
+registerDoParallel(2)
+
+resultats <- foreach(i = 1:20) %dopar% sqrt(i)
+print(resultats)
+``` 
+Ici, le calcul de racines carrées est réparti entre 2 cœurs. 
+
+## 4. Packages **future** et **future.apply**
+
+Les packages `future` et `future.apply` ont été conçus pour rendre le calcul parallèle en R à la fois plus simple, plus lisible et plus flexible. Contrairement à des packages comme `parallel`, où il faut explicitement créer un cluster, gérer les workers et exporter les variables, ici on adopte une approche déclarative : **on décrit ce qu’on veut faire**, et **le système se charge de l’exécuter** selon un plan défini.
+
+Ces packages permettent de paralléliser facilement des fonctions comme `lapply()` ou `sapply()` **sans avoir à se soucier des aspects techniques** (gestion des cœurs, communication entre workers, etc.). Il devient ainsi très simple de basculer d'une exécution séquentielle à une exécution parallèle, en changeant une seule ligne de code.
+
+Ses principales fonctions sont: 
+
+- `plan(strategy)`  
+  Cette fonction définit le **plan d’exécution**, c’est-à-dire la manière dont les tâches vont être exécutées :
+  - `plan(sequential)` : exécution séquentielle classique, une tâche après l'autre (par défaut).
+  - `plan(multisession)` : exécution parallèle sur plusieurs cœurs, chaque tâche étant lancée dans un processus indépendant. Fonctionne sur **tous les systèmes d’exploitation**, y compris **Windows**.
+  - `plan(multicore)` : exécution parallèle optimisée pour **Linux/Mac** uniquement.
+
+- `future_lapply(X, FUN)`  
+  Version parallèle de `lapply()`. Chaque élément de `X` est traité indépendamment par la fonction `FUN`, de manière simultanée sur les différents cœurs disponibles. Le résultat est retourné sous forme de **liste**.
+
+- `future_sapply(X, FUN)`  
+  Version parallèle de `sapply()`. Fonctionne comme `future_lapply()` mais **le résultat est automatiquement simplifié** (vecteur, matrice...), comme avec `sapply()`.
+
+```{r future, message=FALSE, warning=FALSE}
+
+library(future)
+library(future.apply)
+
+# Définir le plan d'exécution parallèle
+plan(multisession)  # Utiliser plusieurs cœurs sur tous les systèmes d'exploitation
+
+# Créer une liste de nombres
+x <- 1:10
+
+# Appliquer une fonction de manière parallèle
+resultats <- future_lapply(x, function(i) sqrt(i))
+
+# Afficher les résultats
+print(resultats)
+```
+
+## 5. Package **snow** (Simple Network of Workstations)
+
+**snow** est une alternative plus flexible à parallel, notamment pour les environnements distribués (plusieurs machines), mais fonctionne aussi en local. 
+
+Il comporte les fonctions suivantes: 
+
+- `makeCluster()`: crée un cluster de workers, localement ou à distance.
+
+- `clusterExport()`: clusterApply(), clusterMap(): mêmes principes que dans parallel.
+
+- `snow.time()`: mesure le temps d'exécution d’une commande dans un cluster.
+
+
+## 6. Package **snowFT** 
+**snowFT** est une extension du package snow permettant la tolérance aux pannes (fault tolerance). Il est utile dans les environnements instables ou avec de longs calculs, car il permet de redémarrer un worker qui a échoué sans compromettre tout le processus.
+
+Ici `makeClusterFT()`: crée un cluster avec tolérance aux pannes.
+Compatible avec les fonctions classiques de snow.
+
+
