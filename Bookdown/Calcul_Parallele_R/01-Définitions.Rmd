@@ -14,7 +14,7 @@ Le **calcul parallèle** désigne l'exécution simultanée de plusieurs tâches 
 
 Dans cette partie, nous explorons les types de parallélisme que l'on peut utiliser pour diviser une tâche complexe en plusieurs sous-tâches exécutées simultanément.
 
-### Parallélisme des données vs paralléliste des taches 
+### Parallélisme des données vs parallélisme des taches 
 
 #### Parallélisme de données
 

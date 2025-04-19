@@ -2,7 +2,7 @@
 
 book_filename: "Calcul_Parallele_R"
 delete_merged_file: true
-output_dir: "outputs"
+output_dir: "_book"
 
 rmd_files:
   - Page_de_garde.Rmd #Page de garde

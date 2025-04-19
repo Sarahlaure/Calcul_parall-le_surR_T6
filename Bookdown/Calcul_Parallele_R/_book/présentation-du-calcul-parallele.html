@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Présentation du calcul parallele | Calcul_Parallele_R.knit</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Présentation du calcul parallele | Calcul_Parallele_R.knit" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Présentation du calcul parallele | Calcul_Parallele_R.knit" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introduction.html"/>
+<link rel="next" href="concepts-fondamentaux.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="section.html"><a href="section.html"><i class="fa fa-check"></i>.</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#contexte-et-motivations-ayant-donné-lieu-au-calcul-parallele"><i class="fa fa-check"></i>1- Contexte et motivations ayant donné lieu au calcul parallele</a></li>
+<li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html#loi-de-moore-et-plafonnement-des-fréquences-cpu"><i class="fa fa-check"></i>2- Loi de Moore et plafonnement des fréquences CPU</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="présentation-du-calcul-parallele.html"><a href="présentation-du-calcul-parallele.html"><i class="fa fa-check"></i>Présentation du calcul parallele</a>
+<ul>
+<li class="chapter" data-level="" data-path="présentation-du-calcul-parallele.html"><a href="présentation-du-calcul-parallele.html#définition"><i class="fa fa-check"></i>Définition</a></li>
+<li class="chapter" data-level="" data-path="présentation-du-calcul-parallele.html"><a href="présentation-du-calcul-parallele.html#comparaison-calcul-parallele-vs-calcul-sequentielle"><i class="fa fa-check"></i>Comparaison calcul parallele vs calcul sequentielle</a></li>
+<li class="chapter" data-level="" data-path="présentation-du-calcul-parallele.html"><a href="présentation-du-calcul-parallele.html#types-de-parallélisme"><i class="fa fa-check"></i>Types de parallélisme</a>
+<ul>
+<li class="chapter" data-level="" data-path="présentation-du-calcul-parallele.html"><a href="présentation-du-calcul-parallele.html#parallélisme-des-données-vs-parallélisme-des-taches"><i class="fa fa-check"></i>Parallélisme des données vs parallélisme des taches</a>
+<ul>
+<li class="chapter" data-level="" data-path="présentation-du-calcul-parallele.html"><a href="présentation-du-calcul-parallele.html#parallélisme-de-données"><i class="fa fa-check"></i>Parallélisme de données</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="présentation-du-calcul-parallele.html"><a href="présentation-du-calcul-parallele.html#parallélisme-de-tâches"><i class="fa fa-check"></i>Parallélisme de tâches</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="présentation-du-calcul-parallele.html"><a href="présentation-du-calcul-parallele.html#parallélisme-distribué-et-parallélisme-partagé"><i class="fa fa-check"></i>Parallélisme distribué et parallélisme partagé</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="concepts-fondamentaux.html"><a href="concepts-fondamentaux.html"><i class="fa fa-check"></i>Concepts fondamentaux</a>
+<ul>
+<li class="chapter" data-level="" data-path="concepts-fondamentaux.html"><a href="concepts-fondamentaux.html#coeurs-du-processeur"><i class="fa fa-check"></i>Coeurs du Processeur</a></li>
+<li class="chapter" data-level="" data-path="concepts-fondamentaux.html"><a href="concepts-fondamentaux.html#threads-ou-processeurs-logiques"><i class="fa fa-check"></i>Threads (ou Processeurs Logiques)</a></li>
+<li class="chapter" data-level="" data-path="concepts-fondamentaux.html"><a href="concepts-fondamentaux.html#hyper-threading"><i class="fa fa-check"></i>Hyper-threading</a>
+<ul>
+<li class="chapter" data-level="" data-path="concepts-fondamentaux.html"><a href="concepts-fondamentaux.html#lien-entre-coeurs-threads-et-calcul-parallele"><i class="fa fa-check"></i>Lien entre Coeurs, Threads et calcul parallele</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="concepts-fondamentaux.html"><a href="concepts-fondamentaux.html#programme-maître-et-son-rôle-dans-le-calcul-parallèle"><i class="fa fa-check"></i>Programme Maître et son rôle dans le calcul parallèle</a>
+<ul>
+<li class="chapter" data-level="" data-path="concepts-fondamentaux.html"><a href="concepts-fondamentaux.html#cluster-et-worker"><i class="fa fa-check"></i>Cluster et worker</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="packages-et-fonctions-de-base-du-calcul-parallele.html"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html"><i class="fa fa-check"></i>Packages et fonctions de base du calcul parallele</a>
+<ul>
+<li class="chapter" data-level="" data-path="packages-et-fonctions-de-base-du-calcul-parallele.html"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#package-parallel"><i class="fa fa-check"></i>1. Package <strong>parallel</strong></a></li>
+<li class="chapter" data-level="" data-path="packages-et-fonctions-de-base-du-calcul-parallele.html"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#package-tictoc"><i class="fa fa-check"></i>2. Package <strong>tictoc</strong></a></li>
+<li class="chapter" data-level="" data-path="packages-et-fonctions-de-base-du-calcul-parallele.html"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#package-foreach-doparallel"><i class="fa fa-check"></i>3. Package <strong>foreach + doParallel</strong></a></li>
+<li class="chapter" data-level="" data-path="packages-et-fonctions-de-base-du-calcul-parallele.html"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#packages-future-et-future.apply"><i class="fa fa-check"></i>4. Packages <strong>future</strong> et <strong>future.apply</strong></a></li>
+<li class="chapter" data-level="" data-path="packages-et-fonctions-de-base-du-calcul-parallele.html"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#package-snow-simple-network-of-workstations"><i class="fa fa-check"></i>5. Package <strong>snow</strong> (Simple Network of Workstations)</a></li>
+<li class="chapter" data-level="" data-path="packages-et-fonctions-de-base-du-calcul-parallele.html"><a href="packages-et-fonctions-de-base-du-calcul-parallele.html#package-snowft"><i class="fa fa-check"></i>6. Package <strong>snowFT</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="patterns-essentiels.html"><a href="patterns-essentiels.html"><i class="fa fa-check"></i>Patterns essentiels</a>
+<ul>
+<li class="chapter" data-level="" data-path="patterns-essentiels.html"><a href="patterns-essentiels.html#fork-join"><i class="fa fa-check"></i>Fork-join</a></li>
+<li class="chapter" data-level="" data-path="patterns-essentiels.html"><a href="patterns-essentiels.html#map-reduce"><i class="fa fa-check"></i>Map Reduce</a></li>
+<li class="chapter" data-level="" data-path="patterns-essentiels.html"><a href="patterns-essentiels.html#divide-conquer"><i class="fa fa-check"></i>Divide &amp; Conquer</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html"><i class="fa fa-check"></i>PERFORMANCE ET ASPECTS PRATIQUES</a>
+<ul>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#métriques-de-base"><i class="fa fa-check"></i>Métriques de base</a>
+<ul>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#speedup"><i class="fa fa-check"></i>Speedup</a></li>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#efficacité"><i class="fa fa-check"></i>Efficacité</a></li>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#scalabilité"><i class="fa fa-check"></i>Scalabilité</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#défis-et-optimisation"><i class="fa fa-check"></i>Défis et optimisation</a>
+<ul>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#overhead-surcharge"><i class="fa fa-check"></i>Overhead (surcharge)</a></li>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#synchronisation"><i class="fa fa-check"></i>2. Synchronisation</a></li>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#surcharge-mémoire"><i class="fa fa-check"></i>3. Surcharge mémoire</a></li>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#communication-interprocessus"><i class="fa fa-check"></i>4. Communication inter‑processus</a></li>
+<li class="chapter" data-level="" data-path="performance-et-aspects-pratiques.html"><a href="performance-et-aspects-pratiques.html#sécurité-des-données-parallélisme-distribué"><i class="fa fa-check"></i>5. Sécurité des données (parallélisme distribué)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bonnes-pratiques.html"><a href="bonnes-pratiques.html"><i class="fa fa-check"></i>Bonnes pratiques</a>
+<ul>
+<li class="chapter" data-level="" data-path="bonnes-pratiques.html"><a href="bonnes-pratiques.html#a-ne-pas-paralléliser-des-tâches-trop-légères"><i class="fa fa-check"></i>a) Ne pas paralléliser des tâches trop légères</a></li>
+<li class="chapter" data-level="" data-path="bonnes-pratiques.html"><a href="bonnes-pratiques.html#b-trouver-le-bon-équilibre-entre-nombre-de-cœurs-et-taille-de-tâche"><i class="fa fa-check"></i>b) Trouver le bon équilibre entre nombre de cœurs et taille de tâche</a></li>
+<li class="chapter" data-level="" data-path="bonnes-pratiques.html"><a href="bonnes-pratiques.html#c-optimisation-de-la-mémoire-et-du-cpu"><i class="fa fa-check"></i>c) Optimisation de la mémoire et du CPU</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i>Conclusion</a></li>
+<li class="chapter" data-level="" data-path="références.html"><a href="références.html"><i class="fa fa-check"></i>Références</a>
+<ul>
+<li class="chapter" data-level="" data-path="références.html"><a href="références.html#documentation-officielle-et-tutoriels"><i class="fa fa-check"></i>Documentation officielle et tutoriels</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="présentation-du-calcul-parallele" class="section level1 hasAnchor">
+<h1>Présentation du calcul parallele<a href="présentation-du-calcul-parallele.html#présentation-du-calcul-parallele" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="définition" class="section level2 hasAnchor">
+<h2>Définition<a href="présentation-du-calcul-parallele.html#définition" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Le <strong>calcul parallèle</strong> désigne l’exécution simultanée de plusieurs tâches grâce à l’utilisation de plusieurs ressources informatiques (comme des cœurs ou des threads, dont nous parlerons ci-dessous). Plutôt que d’exécuter les opérations une par une (calcul séquentiel), le calcul parallèle divise un problème en sous-problèmes plus petits qui peuvent être résolus en même temps. Cette approche permet de réduire significativement le temps de traitement des tâches, surtout lorsque le problème est volumineux ou complexe.</p>
+<p>`<img src="Donnees/Images_RMD/Principe%20seq%20vs%20parallele.png" alt="Texte alternatif" /></p>
+</div>
+<div id="comparaison-calcul-parallele-vs-calcul-sequentielle" class="section level2 hasAnchor">
+<h2>Comparaison calcul parallele vs calcul sequentielle<a href="présentation-du-calcul-parallele.html#comparaison-calcul-parallele-vs-calcul-sequentielle" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>`<img src="Donnees/Images_RMD/Comparaison%20seq%20vs%20parallele.png" alt="Texte alternatif" /></p>
+</div>
+<div id="types-de-parallélisme" class="section level2 hasAnchor">
+<h2>Types de parallélisme<a href="présentation-du-calcul-parallele.html#types-de-parallélisme" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Dans cette partie, nous explorons les types de parallélisme que l’on peut utiliser pour diviser une tâche complexe en plusieurs sous-tâches exécutées simultanément.</p>
+<div id="parallélisme-des-données-vs-parallélisme-des-taches" class="section level3 hasAnchor">
+<h3>Parallélisme des données vs parallélisme des taches<a href="présentation-du-calcul-parallele.html#parallélisme-des-données-vs-parallélisme-des-taches" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="parallélisme-de-données" class="section level4 hasAnchor">
+<h4>Parallélisme de données<a href="présentation-du-calcul-parallele.html#parallélisme-de-données" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Le <strong>parallélisme de données</strong> consiste à prendre un même traitement et à l’appliquer <strong>simultanément</strong> à plusieurs <strong>sous‑ensembles</strong> d’un grand jeu de données.<br />
+- <strong>Principe</strong> : on divise les données en morceaux indépendants (blocs de lignes, groupes de pays, plages horaires).<br />
+- <strong>Exécution</strong> : chaque cœur (ou worker) reçoit un sous‑ensemble et réalise exactement la même opération (tri, somme, moyenne, etc.).<br />
+- <strong>Quand l’utiliser</strong> :<br />
+- Traitement de <strong>grandes bases de données</strong> (Big Data)
+- Opérations répétitives et uniformes (ex. calcul de moyennes, transformations de colonnes)</p>
+<ul>
+<li><strong>Avantage</strong> : excellente montée en charge dès que le volume de données est important, car chaque cœur peut travailler de son côté sans attendre les autres.</li>
+</ul>
+<p><strong>Application </strong> : Cette démonstration illustre simplement le principe du parallélisme des données en R. On génère un petit échantillon de 20 valeurs, que l’on divise en deux sous-ensembles traités en parallèle par deux cœurs. Chaque cœur calcule la moyenne de sa partie, puis on en déduit une moyenne globale. L’objectif ici n’est pas de gagner du temps — car sur un si petit échantillon, le parallélisme peut même être plus lent — mais simplement de comprendre le fonctionnement du parallélisme des données : création d’un cluster, répartition des données, traitement par cœur, et agrégation finale des résultats.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="présentation-du-calcul-parallele.html#cb1-1" tabindex="-1"></a>tictoc<span class="sc">::</span><span class="fu">tic.clearlog</span>()    <span class="co"># Nettoyage des logs de tictoc</span></span>
+<span id="cb1-2"><a href="présentation-du-calcul-parallele.html#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="présentation-du-calcul-parallele.html#cb1-3" tabindex="-1"></a><span class="do">### Chargement des librairies nécessaires</span></span>
+<span id="cb1-4"><a href="présentation-du-calcul-parallele.html#cb1-4" tabindex="-1"></a><span class="fu">library</span>(parallel)         <span class="co"># Pour créer et gérer un cluster de workers</span></span>
+<span id="cb1-5"><a href="présentation-du-calcul-parallele.html#cb1-5" tabindex="-1"></a><span class="fu">library</span>(dplyr)            <span class="co"># Pour la manipulation de données</span></span>
+<span id="cb1-6"><a href="présentation-du-calcul-parallele.html#cb1-6" tabindex="-1"></a><span class="fu">library</span>(tictoc)           <span class="co"># Pour mesurer les temps d&#39;exécution</span></span>
+<span id="cb1-7"><a href="présentation-du-calcul-parallele.html#cb1-7" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="présentation-du-calcul-parallele.html#cb1-8" tabindex="-1"></a><span class="do">### 1- Génération de l&#39;échantillon</span></span>
+<span id="cb1-9"><a href="présentation-du-calcul-parallele.html#cb1-9" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="présentation-du-calcul-parallele.html#cb1-10" tabindex="-1"></a><span class="co"># Ceci permet la reproductibilité pour que lors de la reexecution ca ressorte les meme valeurs </span></span>
+<span id="cb1-11"><a href="présentation-du-calcul-parallele.html#cb1-11" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-12"><a href="présentation-du-calcul-parallele.html#cb1-12" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="présentation-du-calcul-parallele.html#cb1-13" tabindex="-1"></a><span class="co"># Création d&#39;un vecteur de 20 valeurs aléatoires</span></span>
+<span id="cb1-14"><a href="présentation-du-calcul-parallele.html#cb1-14" tabindex="-1"></a>echantillon <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
+<span id="cb1-15"><a href="présentation-du-calcul-parallele.html#cb1-15" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="présentation-du-calcul-parallele.html#cb1-16" tabindex="-1"></a><span class="co"># Affichage des valeurs</span></span>
+<span id="cb1-17"><a href="présentation-du-calcul-parallele.html#cb1-17" tabindex="-1"></a><span class="fu">print</span>(echantillon)</span></code></pre></div>
+<pre><code>##  [1] 63.70958 44.35302 53.63128 56.32863 54.04268 48.93875
+##  [7] 65.11522 49.05341 70.18424 49.37286 63.04870 72.86645
+## [13] 36.11139 47.21211 48.66679 56.35950 47.15747 23.43545
+## [19] 25.59533 63.20113</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="présentation-du-calcul-parallele.html#cb3-1" tabindex="-1"></a><span class="do">### 2- Calcul parallèle</span></span>
+<span id="cb3-2"><a href="présentation-du-calcul-parallele.html#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="présentation-du-calcul-parallele.html#cb3-3" tabindex="-1"></a><span class="co"># 2.1 Démarrage du chronomètre pour la phase parallèle</span></span>
+<span id="cb3-4"><a href="présentation-du-calcul-parallele.html#cb3-4" tabindex="-1"></a><span class="fu">tic</span>(<span class="st">&quot;Parallèle&quot;</span>)  <span class="co"># &quot;Parallèle est juste le nom du chronomètre lancé</span></span>
+<span id="cb3-5"><a href="présentation-du-calcul-parallele.html#cb3-5" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="présentation-du-calcul-parallele.html#cb3-6" tabindex="-1"></a><span class="co"># 2.2 Création d&#39;un cluster de 2 workers</span></span>
+<span id="cb3-7"><a href="présentation-du-calcul-parallele.html#cb3-7" tabindex="-1"></a>cluster <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(<span class="dv">2</span>)</span>
+<span id="cb3-8"><a href="présentation-du-calcul-parallele.html#cb3-8" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="présentation-du-calcul-parallele.html#cb3-9" tabindex="-1"></a><span class="co"># 2.3 Division de l&#39;échantillon en 2 sous-ensembles égaux</span></span>
+<span id="cb3-10"><a href="présentation-du-calcul-parallele.html#cb3-10" tabindex="-1"></a>groupes <span class="ot">&lt;-</span> <span class="fu">split</span>(echantillon, <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">each =</span> <span class="dv">10</span>))</span>
+<span id="cb3-11"><a href="présentation-du-calcul-parallele.html#cb3-11" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="présentation-du-calcul-parallele.html#cb3-12" tabindex="-1"></a><span class="co"># 2.4 Fonction de calcul de la moyenne (celle qui sera appliquée par chaque worker)</span></span>
+<span id="cb3-13"><a href="présentation-du-calcul-parallele.html#cb3-13" tabindex="-1"></a>calcul_moyenne <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb3-14"><a href="présentation-du-calcul-parallele.html#cb3-14" tabindex="-1"></a>  <span class="fu">mean</span>(x)</span>
+<span id="cb3-15"><a href="présentation-du-calcul-parallele.html#cb3-15" tabindex="-1"></a>}</span>
+<span id="cb3-16"><a href="présentation-du-calcul-parallele.html#cb3-16" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="présentation-du-calcul-parallele.html#cb3-17" tabindex="-1"></a><span class="co"># 2.5 Export des objets et fonction vers les workers</span></span>
+<span id="cb3-18"><a href="présentation-du-calcul-parallele.html#cb3-18" tabindex="-1"></a><span class="fu">clusterExport</span>(cluster, <span class="at">varlist =</span> <span class="fu">c</span>(<span class="st">&quot;groupes&quot;</span>, <span class="st">&quot;calcul_moyenne&quot;</span>), <span class="at">envir =</span> <span class="fu">environment</span>()) <span class="co"># Environnement sert à indiquer que les données se trouve dans l&#39;environnement actuel</span></span>
+<span id="cb3-19"><a href="présentation-du-calcul-parallele.html#cb3-19" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="présentation-du-calcul-parallele.html#cb3-20" tabindex="-1"></a><span class="co"># 2.6 Exécution parallèle : chaque worker calcule la moyenne de son sous-ensemble</span></span>
+<span id="cb3-21"><a href="présentation-du-calcul-parallele.html#cb3-21" tabindex="-1"></a>moyennes_partielles <span class="ot">&lt;-</span> <span class="fu">parLapply</span>(cluster, groupes, calcul_moyenne) <span class="co"># Remember, parLapply prend le nom du cluster, les groupes et la fonction à appliquer </span></span>
+<span id="cb3-22"><a href="présentation-du-calcul-parallele.html#cb3-22" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="présentation-du-calcul-parallele.html#cb3-23" tabindex="-1"></a><span class="co"># 2.7 Arrêt du cluster</span></span>
+<span id="cb3-24"><a href="présentation-du-calcul-parallele.html#cb3-24" tabindex="-1"></a>tic.stop <span class="ot">&lt;-</span> <span class="fu">toc</span>(<span class="at">log =</span> <span class="cn">TRUE</span>) <span class="co"># Qui renvoie le temps executé par le chronomètre et stocke sa valeur </span></span></code></pre></div>
+<pre><code>## Parallèle: 0.39 sec elapsed</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="présentation-du-calcul-parallele.html#cb5-1" tabindex="-1"></a><span class="fu">stopCluster</span>(cluster)</span>
+<span id="cb5-2"><a href="présentation-du-calcul-parallele.html#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="présentation-du-calcul-parallele.html#cb5-3" tabindex="-1"></a><span class="co"># 2.8 Affichage des moyennes calculées par chaque worker</span></span>
+<span id="cb5-4"><a href="présentation-du-calcul-parallele.html#cb5-4" tabindex="-1"></a><span class="fu">names</span>(moyennes_partielles) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;Cœur_&quot;</span>, <span class="fu">seq_along</span>(moyennes_partielles)) <span class="co"># Juste pour numeroter les coeur et avoir coeur_1 et coeur_2</span></span>
+<span id="cb5-5"><a href="présentation-du-calcul-parallele.html#cb5-5" tabindex="-1"></a><span class="fu">print</span>(moyennes_partielles)</span></code></pre></div>
+<pre><code>## $Cœur_1
+## [1] 55.47297
+## 
+## $Cœur_2
+## [1] 48.36543</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="présentation-du-calcul-parallele.html#cb7-1" tabindex="-1"></a><span class="co"># 2.9 Calcul de la moyenne agrégée finale (moyenne des moyennes)</span></span>
+<span id="cb7-2"><a href="présentation-du-calcul-parallele.html#cb7-2" tabindex="-1"></a>moyenne_parallele <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">unlist</span>(moyennes_partielles))</span>
+<span id="cb7-3"><a href="présentation-du-calcul-parallele.html#cb7-3" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;Moyenne agrégée (parallèle) :&quot;</span>, <span class="fu">round</span>(moyenne_parallele, <span class="dv">4</span>)))</span></code></pre></div>
+<pre><code>## [1] &quot;Moyenne agrégée (parallèle) : 51.9192&quot;</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="présentation-du-calcul-parallele.html#cb9-1" tabindex="-1"></a><span class="do">### 3- Calcul séquentiel</span></span>
+<span id="cb9-2"><a href="présentation-du-calcul-parallele.html#cb9-2" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="présentation-du-calcul-parallele.html#cb9-3" tabindex="-1"></a><span class="co"># Démarrage du chronomètre pour la phase séquentielle</span></span>
+<span id="cb9-4"><a href="présentation-du-calcul-parallele.html#cb9-4" tabindex="-1"></a><span class="fu">tic</span>(<span class="st">&quot;Séquentiel&quot;</span>)</span>
+<span id="cb9-5"><a href="présentation-du-calcul-parallele.html#cb9-5" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="présentation-du-calcul-parallele.html#cb9-6" tabindex="-1"></a><span class="co"># Calcul direct de la moyenne sur tout l&#39;échantillon</span></span>
+<span id="cb9-7"><a href="présentation-du-calcul-parallele.html#cb9-7" tabindex="-1"></a>moyenne_sequentielle <span class="ot">&lt;-</span> <span class="fu">mean</span>(echantillon)</span>
+<span id="cb9-8"><a href="présentation-du-calcul-parallele.html#cb9-8" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="présentation-du-calcul-parallele.html#cb9-9" tabindex="-1"></a><span class="co"># Arrêt du chronomètre</span></span>
+<span id="cb9-10"><a href="présentation-du-calcul-parallele.html#cb9-10" tabindex="-1"></a><span class="fu">toc</span>(<span class="at">log =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## Séquentiel: 0 sec elapsed</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="présentation-du-calcul-parallele.html#cb11-1" tabindex="-1"></a><span class="co"># Affichage du résultat séquentiel</span></span>
+<span id="cb11-2"><a href="présentation-du-calcul-parallele.html#cb11-2" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;Moyenne (séquentielle) :&quot;</span>, <span class="fu">round</span>(moyenne_sequentielle, <span class="dv">4</span>)))</span></code></pre></div>
+<pre><code>## [1] &quot;Moyenne (séquentielle) : 51.9192&quot;</code></pre>
+</div>
+</div>
+<div id="parallélisme-de-tâches" class="section level3 hasAnchor">
+<h3>Parallélisme de tâches<a href="présentation-du-calcul-parallele.html#parallélisme-de-tâches" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Le <strong>parallélisme de tâches</strong> consiste à exécuter <strong>différentes opérations</strong> en même temps, sur un même ou plusieurs jeux de données.<br />
+- <strong>Principe</strong> : on définit plusieurs tâches <strong>distinctes</strong> (nettoyage, calcul de statistiques, visualisation, export), puis on les lance <strong>en parallèle</strong>.<br />
+- <strong>Exécution</strong> : chaque worker prend en charge une tâche spécifique, sans interférer avec les autres.<br />
+- <strong>Quand l’utiliser</strong> :<br />
+- Chaînes de traitement où chaque étape est indépendante<br />
+- Workflows complexes (prétraitement, analyse, génération de rapports)<br />
+- <strong>Avantage</strong> : accélère l’exécution globale d’un pipeline en répartissant des opérations hétérogènes sur plusieurs ressources.</p>
+<p>**Exemple*:
+Une tâche fait le nettoyage des données, une autre effectue une analyse statistique, et une autre génère des graphiques. Ces trois tâches sont effectuées en parallèle.</p>
+<p><strong>Application:</strong> Exécuter en parallèle quatre traitements différents sur les données de navires : 1 worker pour calculer la moyenne de la vitesse moyenne par type de navire, 1 worker pour effectuer une regression linéaire entre la vitesse et la longueur des navires et ressortir les coefficients, un autre qui calcule les quantiles, enfin un dernier pour calculer l’écart type.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="présentation-du-calcul-parallele.html#cb13-1" tabindex="-1"></a><span class="co"># Chargement des librairies</span></span>
+<span id="cb13-2"><a href="présentation-du-calcul-parallele.html#cb13-2" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb13-3"><a href="présentation-du-calcul-parallele.html#cb13-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb13-4"><a href="présentation-du-calcul-parallele.html#cb13-4" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb13-5"><a href="présentation-du-calcul-parallele.html#cb13-5" tabindex="-1"></a><span class="fu">library</span>(tictoc)</span>
+<span id="cb13-6"><a href="présentation-du-calcul-parallele.html#cb13-6" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="présentation-du-calcul-parallele.html#cb13-7" tabindex="-1"></a><span class="co"># Chargement des données (silence sur les specs)</span></span>
+<span id="cb13-8"><a href="présentation-du-calcul-parallele.html#cb13-8" tabindex="-1"></a>ships <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Donnees/ships.csv&quot;</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-9"><a href="présentation-du-calcul-parallele.html#cb13-9" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="présentation-du-calcul-parallele.html#cb13-10" tabindex="-1"></a><span class="co"># Filtrer valeurs de SPEED et LENGTH valides</span></span>
+<span id="cb13-11"><a href="présentation-du-calcul-parallele.html#cb13-11" tabindex="-1"></a>donnees <span class="ot">&lt;-</span> ships <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(SPEED), SPEED <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="sc">!</span><span class="fu">is.na</span>(LENGTH))</span>
+<span id="cb13-12"><a href="présentation-du-calcul-parallele.html#cb13-12" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="présentation-du-calcul-parallele.html#cb13-13" tabindex="-1"></a><span class="co"># Définition des 4 tâches</span></span>
+<span id="cb13-14"><a href="présentation-du-calcul-parallele.html#cb13-14" tabindex="-1"></a><span class="co">#   1) moyenne de SPEED</span></span>
+<span id="cb13-15"><a href="présentation-du-calcul-parallele.html#cb13-15" tabindex="-1"></a><span class="co">#   2) écart-type de SPEED</span></span>
+<span id="cb13-16"><a href="présentation-du-calcul-parallele.html#cb13-16" tabindex="-1"></a><span class="co">#   3) coefficients de la régression SPEED ~ LENGTH</span></span>
+<span id="cb13-17"><a href="présentation-du-calcul-parallele.html#cb13-17" tabindex="-1"></a><span class="co">#   4) quantiles de SPEED (10%,25%,50%,75%,90%)</span></span>
+<span id="cb13-18"><a href="présentation-du-calcul-parallele.html#cb13-18" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="présentation-du-calcul-parallele.html#cb13-19" tabindex="-1"></a>taches <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb13-20"><a href="présentation-du-calcul-parallele.html#cb13-20" tabindex="-1"></a>  <span class="at">moyenne_speed =</span> <span class="cf">function</span>(df) {</span>
+<span id="cb13-21"><a href="présentation-du-calcul-parallele.html#cb13-21" tabindex="-1"></a>    <span class="fu">mean</span>(df<span class="sc">$</span>SPEED, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-22"><a href="présentation-du-calcul-parallele.html#cb13-22" tabindex="-1"></a>  },</span>
+<span id="cb13-23"><a href="présentation-du-calcul-parallele.html#cb13-23" tabindex="-1"></a>  <span class="at">sd_speed =</span> <span class="cf">function</span>(df) {</span>
+<span id="cb13-24"><a href="présentation-du-calcul-parallele.html#cb13-24" tabindex="-1"></a>    <span class="fu">sd</span>(df<span class="sc">$</span>SPEED, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-25"><a href="présentation-du-calcul-parallele.html#cb13-25" tabindex="-1"></a>  },</span>
+<span id="cb13-26"><a href="présentation-du-calcul-parallele.html#cb13-26" tabindex="-1"></a>  <span class="at">regression_speed_length =</span> <span class="cf">function</span>(df) {</span>
+<span id="cb13-27"><a href="présentation-du-calcul-parallele.html#cb13-27" tabindex="-1"></a>    <span class="fu">coef</span>(<span class="fu">lm</span>(SPEED <span class="sc">~</span> LENGTH, <span class="at">data =</span> df))</span>
+<span id="cb13-28"><a href="présentation-du-calcul-parallele.html#cb13-28" tabindex="-1"></a>  },</span>
+<span id="cb13-29"><a href="présentation-du-calcul-parallele.html#cb13-29" tabindex="-1"></a>  <span class="at">quantiles_speed =</span> <span class="cf">function</span>(df) {</span>
+<span id="cb13-30"><a href="présentation-du-calcul-parallele.html#cb13-30" tabindex="-1"></a>    <span class="fu">quantile</span>(df<span class="sc">$</span>SPEED, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.10</span>, <span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>, <span class="fl">0.90</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-31"><a href="présentation-du-calcul-parallele.html#cb13-31" tabindex="-1"></a>  }</span>
+<span id="cb13-32"><a href="présentation-du-calcul-parallele.html#cb13-32" tabindex="-1"></a>)</span>
+<span id="cb13-33"><a href="présentation-du-calcul-parallele.html#cb13-33" tabindex="-1"></a></span>
+<span id="cb13-34"><a href="présentation-du-calcul-parallele.html#cb13-34" tabindex="-1"></a><span class="co"># Nombre de workers = 4</span></span>
+<span id="cb13-35"><a href="présentation-du-calcul-parallele.html#cb13-35" tabindex="-1"></a>n_workers <span class="ot">&lt;-</span> <span class="fu">length</span>(taches) <span class="co">#On fait ainsi au cas où modifie le nombre de taches plutard</span></span>
+<span id="cb13-36"><a href="présentation-du-calcul-parallele.html#cb13-36" tabindex="-1"></a></span>
+<span id="cb13-37"><a href="présentation-du-calcul-parallele.html#cb13-37" tabindex="-1"></a><span class="co"># 1. Exécution parallèle</span></span>
+<span id="cb13-38"><a href="présentation-du-calcul-parallele.html#cb13-38" tabindex="-1"></a><span class="fu">tic.clearlog</span>() <span class="co"># Nettoyage des logs de tictoc</span></span>
+<span id="cb13-39"><a href="présentation-du-calcul-parallele.html#cb13-39" tabindex="-1"></a><span class="fu">tic</span>(<span class="st">&quot;Parallèle&quot;</span>)</span>
+<span id="cb13-40"><a href="présentation-du-calcul-parallele.html#cb13-40" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(n_workers)</span>
+<span id="cb13-41"><a href="présentation-du-calcul-parallele.html#cb13-41" tabindex="-1"></a><span class="fu">clusterExport</span>(cl, <span class="fu">c</span>(<span class="st">&quot;donnees&quot;</span>, <span class="st">&quot;taches&quot;</span>), <span class="at">envir =</span> <span class="fu">environment</span>())</span>
+<span id="cb13-42"><a href="présentation-du-calcul-parallele.html#cb13-42" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">clusterEvalQ</span>(cl, <span class="fu">suppressMessages</span>(<span class="fu">library</span>(dplyr))))</span>
+<span id="cb13-43"><a href="présentation-du-calcul-parallele.html#cb13-43" tabindex="-1"></a>res_parallel <span class="ot">&lt;-</span> <span class="fu">parLapply</span>(cl, taches, <span class="cf">function</span>(f) <span class="fu">f</span>(donnees))</span>
+<span id="cb13-44"><a href="présentation-du-calcul-parallele.html#cb13-44" tabindex="-1"></a><span class="fu">stopCluster</span>(cl)</span>
+<span id="cb13-45"><a href="présentation-du-calcul-parallele.html#cb13-45" tabindex="-1"></a><span class="fu">toc</span>(<span class="at">log =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## Parallèle: 4.78 sec elapsed</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="présentation-du-calcul-parallele.html#cb15-1" tabindex="-1"></a><span class="co"># 2. Affichage des résultats</span></span>
+<span id="cb15-2"><a href="présentation-du-calcul-parallele.html#cb15-2" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">-- Résultats Parallèle --</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## -- Résultats Parallèle --</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="présentation-du-calcul-parallele.html#cb17-1" tabindex="-1"></a><span class="cf">for</span> (n <span class="cf">in</span> <span class="fu">names</span>(res_parallel)) {</span>
+<span id="cb17-2"><a href="présentation-du-calcul-parallele.html#cb17-2" tabindex="-1"></a>  <span class="fu">cat</span>(n, <span class="st">&quot;:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb17-3"><a href="présentation-du-calcul-parallele.html#cb17-3" tabindex="-1"></a>  <span class="fu">print</span>(res_parallel[[n]])</span>
+<span id="cb17-4"><a href="présentation-du-calcul-parallele.html#cb17-4" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## moyenne_speed :
+## [1] 37.34917
+## sd_speed :
+## [1] 60.90548
+## regression_speed_length :
+## (Intercept)      LENGTH 
+## 40.68911441 -0.04468701 
+## quantiles_speed :
+## 10% 25% 50% 75% 90% 
+##   1   1   6  69  95</code></pre>
+<p>Pour le parallelisme de taches, il est généralement conseillé de <strong>fixer le nombre de workers au plus égale nombre de cœurs physiques</strong> de votre machine:</p>
+<p>En effet, dans le cas où on a <strong>Plus de workers que de cœurs</strong>, même si l’hyper‑threading permet à un cœur de traiter plusieurs tâches simultanément, les threads d’un même cœur <strong>partagent les mêmes ressources</strong>.<br />
+Ainsi, lorsque plusieurs tâches lourdes sont exécutées en même temps et qu’un même cœur doit se les partager, il doit diviser ses ressources (comme le temps de calcul) entre elles. Cela crée une forme d’encombrement, ce qu’on appelle une congestion, qui ralentit l’exécution des tâches à cause de la compétition entre les workers pour accéder aux ressources, et de la surcharge liée à leur gestion.</p>
+<p>En parallélisme de données, le nombre de workers doit être proche du nombre de cœurs physiques pour les calculs lourds. Si les tâches sont rapides, on peut augmenter les workers, mais de maniere prudente.</p>
+</div>
+</div>
+<div id="parallélisme-distribué-et-parallélisme-partagé" class="section level2 hasAnchor">
+<h2>Parallélisme distribué et parallélisme partagé<a href="présentation-du-calcul-parallele.html#parallélisme-distribué-et-parallélisme-partagé" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Il existe deux principales approches pour utiliser plusieurs processeurs afin de faire du calcul parallèle : le parallélisme distribué et le parallélisme partagé (ou calcul parallele en local). Ces approches déterminent comment les ressources sont partagées entre plusieurs processeurs, qu’ils soient dans un même ordinateur ou répartis sur plusieurs machines.</p>
+<p>Le <em>parallélisme partagé</em> est basé sur le fait que tous les workers accèdent à la même mémoire centrale RAM.
+C’est le modèle utilisé <strong>lorsqu’on travaille sur une seule machine</strong>, équipée de plusieurs cœurs de processeur.</p>
+<p>D’autre part, le <em>parallélisme distribué</em> va plus loin en répartissant le calcul sur plusieurs machines connectées par un réseau. Chaque machine travaille sur une portion des données et communique avec les autres machines pour échanger des informations ou combiner les résultats. Dans ce cas, chaque machine peut avoir sa propre mémoire et ses propres ressources, et elles doivent s’échanger des données via un réseau (comme Internet ou un réseau local).</p>
+
+</div>
+</div>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Footer</title>
+</head>
+<body>
+
+  <div class="book-footer">
+    © Exposé sur le calcul parallèle sur R | Réalisé dans le cadre du cours de Projet statistique avec R
+  </div>
+
+</body>
+</html>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="concepts-fondamentaux.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

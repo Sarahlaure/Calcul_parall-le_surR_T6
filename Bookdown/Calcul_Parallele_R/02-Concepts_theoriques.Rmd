@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Concepts fondamentaux 
 
 Le processeur (ou CPU, pour Central Processing Unit) est la partie qui exécute les instructions des programmes et effectue les calculs nécessaires au bon fonctionnement de l'ordinateur. Il peut être vu comme "l'organe" qui contrôle l'exécution des tâches. Un processeur peut contenir un ou plusieurs cœurs (ou cores), chacun capable de traiter des instructions indépendamment.
