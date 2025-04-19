@@ -25,17 +25,16 @@ Pour répondre à ces besoins, on adopte le **calcul parallèle**, qui répartit
 
 Ce dépôt contient :
 1. **Documentation théorique**  
-   Un bookdown détaillant les concepts fondamentaux du calcul parallèle (cœurs vs threads, modèles Fork‑Join, MapReduce, etc.).
+   Un Bookdown détaillant les concepts fondamentaux du calcul parallèle (différences entre cœurs et threads, modèles Fork-Join, MapReduce, etc.). Ce document se trouve dans le dossier bookdown, avec les fichiers de sortie dans le sous-dossier _book.
 2. **Application pratique**  
-   Une application Shiny qui analyse le trafic maritime à l’aide de calculs parallèles sous R.
+   Une application Shiny conçue pour analyser le trafic maritime à l’aide de techniques de calcul parallèle sous R.
 3. **Support de présentation**  
    - Diaporama PowerPoint pour la présentation en classe  
-   - Quiz d’évaluation pour vérifier la compréhension des camarades par rapport à nos explication 
+   - Quiz d’évaluation pour vérifier la compréhension des camarades par rapport à nos explications. 
 4. **Ressources complémentaires**  
-   - Dossier `images/` : graphiques et schémas utilisés  
-   - Document Word sur la **mise en œuvre d’un parallélisme distribué**  
-   - Fichiers de données (`ships.csv`, etc.)
-   - La documentation utilisée.
+   - Document Word détaillant la  **mise en œuvre d’un parallélisme distribué**  
+   - Le fichier contenant la consigne initiale ayant guidé la réalisation de l’application Shiny. 
+   - La documentation pédagogique utilisée, notamment le support chapitre_3_avancé fourni par le professeur.
 
 ---
 
